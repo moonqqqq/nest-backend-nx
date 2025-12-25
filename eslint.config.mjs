@@ -5,7 +5,18 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist', '**/out-tsc'],
+    ignores: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.next/**",
+      "**/build/**",
+      "**/out/**",
+      "**/public/**",
+      "**/.nx/**", // Nx 캐시 폴더 제외
+      "**/tmp/**",
+      "**/*.min.js",
+      "**/*.bundle.js"
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
