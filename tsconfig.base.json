@@ -10,16 +10,31 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@libs/logger": ["libs/logger/src/index.ts"],
-      "@libs/shared": ["libs/shared/src/index.ts"],
-      "@nest-backend-monorepo/config": ["libs/config/src/index.ts"]
+      "@libs/logger": [
+        "libs/logger/src/index.ts"
+      ],
+      "@libs/shared": [
+        "libs/shared/src/index.ts"
+      ],
+      "@libs/config": [
+        "libs/config/src/index.ts"
+      ],
+      "@libs/jwt": [
+        "libs/jwt/src/index.ts"
+      ]
     },
     "noPropertyAccessFromIndexSignature": false
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

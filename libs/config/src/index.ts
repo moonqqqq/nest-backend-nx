@@ -1,1 +1,1 @@
-export * from './lib/app.config';
+export { default as AppConfig } from './lib/app.config';
