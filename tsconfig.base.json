@@ -18,11 +18,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nest-backend-monorepo/logger": [
+      "@libs/logger": [
         "libs/logger/src/index.ts"
+      ],
+      "@libs/shared": [
+        "libs/shared/src/index.ts"
       ]
     },
-    "noPropertyAccessFromIndexSignature": false,
+    "noPropertyAccessFromIndexSignature": false
   },
   "exclude": [
     "node_modules",

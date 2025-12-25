@@ -1,0 +1,1 @@
+export * from './lib/dtos/common/id-param.dto';
