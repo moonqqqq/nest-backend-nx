@@ -1,7 +1,7 @@
 {
-  "name": "deep-search-api",
+  "name": "hello-world",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/deep-search-api/src",
+  "sourceRoot": "apps/hello-world/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "options": {
         "command": "webpack-cli build",
         "args": ["--node-env=production"],
-        "cwd": "apps/deep-search-api"
+        "cwd": "apps/hello-world"
       },
       "configurations": {
         "development": {
@@ -23,8 +23,8 @@
       "cache": true,
       "executor": "@nx/js:prune-lockfile",
       "outputs": [
-        "{workspaceRoot}/dist/apps/deep-search-api/package.json",
-        "{workspaceRoot}/dist/apps/deep-search-api/package-lock.json"
+        "{workspaceRoot}/dist/apps/hello-world/package.json",
+        "{workspaceRoot}/dist/apps/hello-world/yarn.lock"
       ],
       "options": {
         "buildTarget": "build"
@@ -33,9 +33,7 @@
     "copy-workspace-modules": {
       "dependsOn": ["build"],
       "cache": true,
-      "outputs": [
-        "{workspaceRoot}/dist/apps/deep-search-api/workspace_modules"
-      ],
+      "outputs": ["{workspaceRoot}/dist/apps/hello-world/workspace_modules"],
       "executor": "@nx/js:copy-workspace-modules",
       "options": {
         "buildTarget": "build"
@@ -51,15 +49,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "deep-search-api:build",
+        "buildTarget": "hello-world:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "deep-search-api:build:development"
+          "buildTarget": "hello-world:build:development"
         },
         "production": {
-          "buildTarget": "deep-search-api:build:production"
+          "buildTarget": "hello-world:build:production"
         }
       }
     },

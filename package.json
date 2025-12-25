@@ -1,5 +1,5 @@
 {
-  "name": "@deep-search-api/source",
+  "name": "@nest-backend-monorepo/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {

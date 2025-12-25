@@ -16,19 +16,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx serve deep-search-api
+npx nx serve nest-backend-monorepo
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build deep-search-api
+npx nx build nest-backend-monorepo
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project deep-search-api
+npx nx show project nest-backend-monorepo
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
