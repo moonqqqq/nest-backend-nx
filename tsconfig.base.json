@@ -31,7 +31,8 @@
         "libs/jwt/src/index.ts"
       ]
     },
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
