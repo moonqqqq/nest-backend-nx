@@ -3,7 +3,7 @@ import { CreateUserPayload } from '@libs/user';
 import { PrismaService } from '@libs/database';
 
 @Injectable()
-export class AppService {
+export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
   getData(): { message: string } {
     return { message: 'Hello API' };
