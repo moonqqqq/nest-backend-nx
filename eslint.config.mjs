@@ -34,6 +34,8 @@ export default [
           ],
         },
       ],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-empty-function': 'error',
     },
   },
   {
