@@ -1,21 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { IUserRepository } from './interfaces/user-repository.interface';
 import { PrismaService } from '@libs/database';
-import { CreateUserPayload, UserProfile } from '@libs/user';
+import { CreateUserPayload } from '@libs/user';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
     constructor(private readonly prisma: PrismaService) { }
 
+    async checkEmailIsDuplicate(email: string) {
+        const userEntity = await this.prisma.userEntity.findUnique({
+            where: {
+                email,
+            }
+        });
+
+        return !!userEntity;
+    }
+
     async create(createUserPayload: CreateUserPayload) {
-        const userEntity = await this.prisma.userEntity.create({
+        await this.prisma.userEntity.create({
             data: {
                 email: createUserPayload.email,
                 name: createUserPayload.name,
                 password: createUserPayload.password,
             }
         });
-
-        return UserProfile.fromEntity(userEntity);
     }
 }

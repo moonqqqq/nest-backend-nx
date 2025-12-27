@@ -1,5 +1,5 @@
-import { CreateUserPayload, UserProfile } from "@libs/user";
+import { CreateUserPayload } from "@libs/user";
 
 export abstract class IUserService {
-    abstract createUser(createUserPayload: CreateUserPayload): Promise<UserProfile>;
+    abstract createUser(createUserPayload: CreateUserPayload): Promise<void>;
 }
