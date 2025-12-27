@@ -17,7 +17,10 @@ model UserEntity {
   id          String             @id @default(uuid())
   email       String             
   password    String
+  name        String
   
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@map("User")
 }

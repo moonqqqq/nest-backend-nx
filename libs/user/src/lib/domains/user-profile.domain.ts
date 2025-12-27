@@ -19,4 +19,20 @@ export class UserProfile extends BaseDomain {
     this.createdAt = payload.createdAt;
     this.updatedAt = payload.updatedAt;
   }
+
+  static fromEntity(data: {
+    id: string;
+    email: string;
+    name: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+  }): UserProfile {
+    return new UserProfile({
+      id: data.id,
+      email: data.email,
+      name: data.name,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    });
+  }
 }
