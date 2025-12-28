@@ -46,3 +46,6 @@ Thumbs.db
 # 예시 파일은 추적
 !*.env*.example
 !*.env*.example
+
+logs
+logs/*
