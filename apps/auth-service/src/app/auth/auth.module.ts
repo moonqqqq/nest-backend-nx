@@ -7,6 +7,7 @@ import { IAuthService } from './interfaces/auth-service.interface';
 import { JWTModule } from '@libs/jwt';
 import { HttpModule } from '@nestjs/axios';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { LoggerModule } from '@libs/logger';
 
 @Module({
   imports: [
@@ -16,14 +17,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         useFactory: (config: ConfigType<typeof ServiceConfig>) => ({
           transport: Transport.TCP,
           options: {
-            host: '127.0.0.1',
             port: parseInt(config.user.tcpPort),
           },
         }),
         inject: [ServiceConfig.KEY],
       },
     ]),
-    JWTModule, HttpModule],
+    JWTModule, HttpModule, LoggerModule],
   controllers: [AuthController],
   providers: [{
     provide: IAuthService,

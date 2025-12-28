@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IUserService } from './interfaces/user-service.interface';
 import { IUserRepository } from './interfaces/user-repository.interface';
 import { CreateUserPayload } from '@libs/user';
-import { RpcException } from '@nestjs/microservices';
+import { UserAlreadyExists } from '@libs/shared';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -10,7 +10,7 @@ export class UserService implements IUserService {
 
     async createUser(createUserPayload: CreateUserPayload): Promise<void> {
         const isDuplicate = await this.userRepository.checkEmailIsDuplicate(createUserPayload.email);
-        if (isDuplicate) throw new RpcException({ message: 'Email is duplicate', code: 409 });
+        if (isDuplicate) throw new UserAlreadyExists('User already exists');
 
 
         await this.userRepository.create(createUserPayload);

@@ -3,33 +3,40 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ConfigType } from '@nestjs/config';
 import { ServiceConfig } from '@libs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ILoggerService } from '@libs/logger';
+import { HttpExceptionFilter, PrismaClientExceptionFilter, ServiceExceptionToHttpExceptionFilter, UnhandledExceptionFilter } from '@libs/shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const logger = app.get(ILoggerService);
+  
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  app.useGlobalFilters(new PrismaClientExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new ServiceExceptionToHttpExceptionFilter());
+  app.useGlobalFilters(new UnhandledExceptionFilter(logger));
+
   const serviceConfig = app.get<ConfigType<typeof ServiceConfig>>(ServiceConfig.KEY);
-  const port = serviceConfig.user.port;
-  const tcpPort = serviceConfig.user.tcpPort;
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
-      host: '127.0.0.1',
-      port: parseInt(tcpPort),
+      port: parseInt(serviceConfig.user.tcpPort),
     },
   });
 
   await app.startAllMicroservices();
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
+  await app.listen(serviceConfig.user.port);
+  logger.info(
+    `🚀 USER SERVICE is running on: ${serviceConfig.user.port}`,
   );
 }
 

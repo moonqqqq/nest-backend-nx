@@ -8,6 +8,7 @@ import { IUserRepository } from './modules/user/interfaces/user-repository.inter
 import { UserRepository } from './modules/user/user.repository';
 import { ConfigModule } from '@nestjs/config';
 import { AppConfig, ServiceConfig } from '@libs/config';
+import { LoggerModule } from '@libs/logger';
 
 @Module({
   imports: [
@@ -18,7 +19,9 @@ import { AppConfig, ServiceConfig } from '@libs/config';
         ServiceConfig
       ],
     }),
-    DatabaseModule, UserModule],
+    DatabaseModule, 
+    UserModule,
+    LoggerModule],
   controllers: [UserController],
   providers: [{
     provide: IUserService,
