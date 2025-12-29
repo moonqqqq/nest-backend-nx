@@ -39,6 +39,7 @@ export default [
         { argsIgnorePattern: '^_' },
       ],
       'no-empty-function': 'error',
+      'no-console': 'error',
     },
   },
   {

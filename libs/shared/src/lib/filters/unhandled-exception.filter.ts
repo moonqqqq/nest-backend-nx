@@ -10,9 +10,6 @@ export class UnhandledExceptionFilter extends BaseExceptionFilter {
   }
 
   override async catch(exception: unknown, host: ArgumentsHost) {
-    console.log(exception);
-    console.log('exception');
-    console.log(exception);
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
