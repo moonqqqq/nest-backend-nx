@@ -8,4 +8,4 @@ import { JWTService } from './jwt.service';
   providers: [JWTService],
   exports: [JWTService],
 })
-export class JWTModule { }
+export class JWTModule {}

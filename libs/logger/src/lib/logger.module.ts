@@ -13,4 +13,4 @@ import { WinstomSettingModule } from './winston/winston.config';
   ],
   exports: [ILoggerService],
 })
-export class LoggerModule { }
+export class LoggerModule {}

@@ -9,7 +9,7 @@ export class WinstonLoggerService implements ILoggerService {
   constructor(
     @Inject(WINSTON_MODULE_PROVIDER)
     private readonly logger: WinstonLogger,
-  ) { }
+  ) {}
 
   info(data: string | object): void {
     this.logger.info(data);

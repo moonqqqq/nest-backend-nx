@@ -16,7 +16,7 @@ export class JWTService {
     @Inject(AppConfig.KEY)
     private appConfig: ConfigType<typeof AppConfig>,
     private readonly loggerService: ILoggerService,
-  ) { }
+  ) {}
 
   async createJWT(userData: IUserPayload): Promise<JWTTokensDTO> {
     const payload = userData;
@@ -73,13 +73,13 @@ export class JWTService {
         (err, decoded) => {
           if (err) {
             if (err.message === 'jwt expired') {
-              reject(new UnauthorizedException("JWT expired"));
+              reject(new UnauthorizedException('JWT expired'));
             } else if (err.message === 'invalid signature') {
               reject(
                 new UnauthorizedException({ message: 'Invalid signature' }),
               );
             } else if (err.message === 'jwt malformed') {
-              reject(new UnauthorizedException("JWT malformed"));
+              reject(new UnauthorizedException('JWT malformed'));
             } else {
               this.loggerService.error(err);
               reject(err);

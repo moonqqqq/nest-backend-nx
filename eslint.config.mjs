@@ -6,16 +6,16 @@ export default [
   ...nx.configs['flat/javascript'],
   {
     ignores: [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/.next/**",
-      "**/build/**",
-      "**/out/**",
-      "**/public/**",
-      "**/.nx/**", // Nx 캐시 폴더 제외
-      "**/tmp/**",
-      "**/*.min.js",
-      "**/*.bundle.js"
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.next/**',
+      '**/build/**',
+      '**/out/**',
+      '**/public/**',
+      '**/.nx/**', // Nx 캐시 폴더 제외
+      '**/tmp/**',
+      '**/*.min.js',
+      '**/*.bundle.js',
     ],
   },
   {
@@ -34,7 +34,10 @@ export default [
           ],
         },
       ],
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' },
+      ],
       'no-empty-function': 'error',
     },
   },

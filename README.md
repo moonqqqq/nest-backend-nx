@@ -1,6 +1,7 @@
 ## Run app
 
 개발용 Infra 실행 (kafka, postgres, redis)
+
 ```
 docker compose --env-file .env.infra -f docker-compose-infra.yml up
 ```
@@ -49,6 +50,7 @@ npx nx g @nx/nest:lib libs/my-nest-lib
 ```
 
 To generate nest.js module
+
 ```sh
 npx nx g @nx/nest:resource apps/user-service/src/app/user/user
 ```
@@ -56,6 +58,5 @@ npx nx g @nx/nest:resource apps/user-service/src/app/user/user
 You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
 
 [Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
 
 [Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)

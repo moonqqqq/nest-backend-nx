@@ -23,11 +23,16 @@ import { LoggerModule } from '@libs/logger';
         inject: [ServiceConfig.KEY],
       },
     ]),
-    JWTModule, HttpModule, LoggerModule],
+    JWTModule,
+    HttpModule,
+    LoggerModule,
+  ],
   controllers: [AuthController],
-  providers: [{
-    provide: IAuthService,
-    useClass: AuthService,
-  }],
+  providers: [
+    {
+      provide: IAuthService,
+      useClass: AuthService,
+    },
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

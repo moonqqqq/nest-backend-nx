@@ -6,13 +6,15 @@ import { UserAlreadyExists } from '@libs/shared';
 
 @Injectable()
 export class UserService implements IUserService {
-    constructor(private readonly userRepository: IUserRepository) { }
+  constructor(private readonly userRepository: IUserRepository) {}
 
-    async createUser(createUserPayload: CreateUserPayload): Promise<void> {
-        const isDuplicate = await this.userRepository.checkEmailIsDuplicate(createUserPayload.email);
-        if (isDuplicate) throw new UserAlreadyExists('User already exists');
+  async createUser(createUserPayload: CreateUserPayload): Promise<void> {
+    const isDuplicate = await this.userRepository.checkEmailIsDuplicate(
+      createUserPayload.email,
+    );
+    if (isDuplicate)
+      throw new UserAlreadyExists({ email: createUserPayload.email });
 
-
-        await this.userRepository.create(createUserPayload);
-    }
+    await this.userRepository.create(createUserPayload);
+  }
 }

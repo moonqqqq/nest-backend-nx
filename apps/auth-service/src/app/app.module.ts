@@ -9,16 +9,13 @@ import { HttpModule } from '@nestjs/axios';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [
-        AppConfig,
-        ServiceConfig
-      ],
+      load: [AppConfig, ServiceConfig],
     }),
     AuthModule,
     JWTModule,
-    HttpModule
+    HttpModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

@@ -4,7 +4,7 @@ services:
   cache:
     image: redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - redis-data:/data
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
     image: confluentinc/cp-kafka:7.4.0
     restart: unless-stopped
     ports:
-      - "9092:9092"
+      - '9092:9092'
     environment:
       CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
@@ -43,7 +43,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: true
       KAFKA_METADATA_LOG_SEGMENT_BYTES: 1073741824
       KAFKA_METADATA_MAX_RETENTION_MS: 604800000
-      KAFKA_LOG4J_LOGGERS: "org.apache.kafka.image.loader.MetadataLoader=WARN"
+      KAFKA_LOG4J_LOGGERS: 'org.apache.kafka.image.loader.MetadataLoader=WARN'
     volumes:
       - kafka-data:/var/lib/kafka
 

@@ -5,13 +5,14 @@ import { BaseExceptionFilter } from '@nestjs/core';
 
 @Catch()
 export class UnhandledExceptionFilter extends BaseExceptionFilter {
-  constructor(
-    private readonly logger: ILoggerService,
-  ) {
+  constructor(private readonly logger: ILoggerService) {
     super();
   }
 
   override async catch(exception: unknown, host: ArgumentsHost) {
+    console.log(exception);
+    console.log('exception');
+    console.log(exception);
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();

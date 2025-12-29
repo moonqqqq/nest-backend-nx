@@ -14,21 +14,22 @@ import { LoggerModule } from '@libs/logger';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [
-        AppConfig,
-        ServiceConfig
-      ],
+      load: [AppConfig, ServiceConfig],
     }),
-    DatabaseModule, 
+    DatabaseModule,
     UserModule,
-    LoggerModule],
+    LoggerModule,
+  ],
   controllers: [UserController],
-  providers: [{
-    provide: IUserService,
-    useClass: UserService,
-  }, {
-    provide: IUserRepository,
-    useClass: UserRepository
-  }],
+  providers: [
+    {
+      provide: IUserService,
+      useClass: UserService,
+    },
+    {
+      provide: IUserRepository,
+      useClass: UserRepository,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

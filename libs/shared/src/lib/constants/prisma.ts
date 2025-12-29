@@ -1,4 +1,3 @@
 export enum PrismaErrorCodes {
-    UNIQUE_INDEX_CONFLICT = 'P2002',
-  }
-  
+  UNIQUE_INDEX_CONFLICT = 'P2002',
+}

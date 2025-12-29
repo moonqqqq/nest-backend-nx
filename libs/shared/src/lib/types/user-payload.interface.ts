@@ -1,3 +1,3 @@
 export interface IUserPayload {
-    id: string;
+  id: string;
 }

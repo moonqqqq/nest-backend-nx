@@ -9,12 +9,15 @@ import { DatabaseModule } from '@libs/database';
 @Module({
   imports: [DatabaseModule],
   controllers: [UserController],
-  providers: [{
-    provide: IUserRepository,
-    useClass: UserRepository,
-  }, {
-    provide: IUserService,
-    useClass: UserService,
-  }],
+  providers: [
+    {
+      provide: IUserRepository,
+      useClass: UserRepository,
+    },
+    {
+      provide: IUserService,
+      useClass: UserService,
+    },
+  ],
 })
-export class UserModule { }
+export class UserModule {}
