@@ -1,3 +1,9 @@
-npx eslint .
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-npx nx format:write --base=HEAD
+# 1. Staged 된 파일들의 포맷팅을 맞춤 (자동 수정됨)
+npx lint-staged
+
+# 2. 변경된 프로젝트에 대해서만 린트 검사 (에러 시 커밋 막음)
+# --base=main 은 main 브랜치 기준으로 변경된 것을 감지함
+npx nx affected -t lint --base=main --parallel
