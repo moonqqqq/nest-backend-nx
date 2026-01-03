@@ -14,6 +14,7 @@ import {
 } from '@nestjs/microservices';
 import { ILoggerService } from '@libs/logger';
 import { HttpStatus, ValidationError, ValidationPipe } from '@nestjs/common';
+import { AllExceptionForMicroserviceFilter } from '@libs/shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -41,6 +42,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalFilters(new AllExceptionForMicroserviceFilter());
 
   const serviceConfig = app.get<ConfigType<typeof ServiceConfig>>(
     ServiceConfig.KEY,
