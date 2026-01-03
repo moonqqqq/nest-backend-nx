@@ -17,7 +17,13 @@ LLM 호출/응답 스트리밍 관리 마이크로서비스 백엔드 구현
 
 # 인프라 구성
 
-
+1. API Gateway Server
+2. Kafka consumer(Background Consumer Server)
+: 모든 스트림 이벤트들을 처리
+3. Redis
+: 클라이언트에게 쏴야할 이벤트들을 생명주기동안 저장해두는 공간 Redis Stream을 이용
+4. DB
+: llm 응답이 성공하거나 실패로 끝났을 때 지금까지 응답한 내용을 저장
 
 # TODO
 
@@ -45,6 +51,70 @@ LLM 호출/응답 스트리밍 관리 마이크로서비스 백엔드 구현
     - [ ] 6.1.1. 중간에 재연결 가능하도록
     - [ ] 6.1.2. Last-Event-ID 로 원하는 지점부터 가져올수 있도록.
   - [ ] 6.2. streamId를 통한 streaming 강제 중단 API.
+
+
+# Flow
+```
+1. 요청 단계 (Client -> Kafka)
+===================================================
+[ 사용자/Client ]
+      │
+      │ ① 요청 (LLM 질문) & SSE 구독 대기
+      ▼
+[ API 게이트웨이 ] 
+      │
+      │ ② Job 생성 (Produce)
+      │ "나중에 처리해줘" 하고 던져놓음
+      ▼
+[ Kafka (토픽: llm.requests) ] ◀─── 이벤트 백본 (Event Backbone)
+
+
+2. 처리 단계 (Kafka <-> Worker <-> LLM)
+===================================================
+[ Kafka (토픽: llm.requests) ]
+      │
+      │ ③ 작업 꺼내기 (Consume)
+      ▼
+[ LLM Worker ] ◀─── 백그라운드 작업자
+      │  │
+      │  │ ④-1. 외부 LLM 호출 (OpenAI 등)
+      │  │ ④-2. 응답(청크) 받기
+      │  ▼
+      │
+      │ ④-3. 결과 조각 발행 (Produce)
+      ▼
+[ Kafka (토픽: llm.responses) ] 여러곳에서 이 토픽을 구독하여 개별 파이프라인을 만듬.
+
+
+3. 분배 및 저장 단계 (Kafka -> Redis/DB)
+===================================================
+[ Kafka (토픽: llm.responses) ] 
+      ║
+      ╠════════════════════════════════════╗
+      ▼ (Fast Lane: 실시간)                ▼ (Slow Lane: 영구 저장)
+[ Redis Sync Worker ]                [ DB Archive Worker ]
+      │                                    │
+      │ ① 모든 청크 즉시 저장                 │ ② 이벤트 상태 감지 (Filtering)
+      │ (XADD stream:...)                  │    IF status == "DONE" or "FAILED":
+      │                                    │       -> 전체 내용 조립 (Aggregation)
+      ▼                                    │       -> DB 저장 (UPSERT)
+[ Redis (Streams) ]                        ▼
+(사용자에게 실시간 스트리밍용)           [ RDBMS (DB) ]
+                                     (최종 결과 보관용)
+
+4. 응답 전달 단계 (Redis -> Client)
+===================================================
+[ Redis (Streams) ]
+      │
+      │ ⑦ 데이터 읽기 (Read)
+      │ "새로운 데이터 있나?"
+      ▼
+[ API 게이트웨이 ]
+      │
+      │ ⑧ SSE 전송
+      ▼
+[ 사용자/Client ]
+```
 
 ## Run app
 
