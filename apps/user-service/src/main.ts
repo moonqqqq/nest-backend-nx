@@ -7,9 +7,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ConfigType } from '@nestjs/config';
 import { ServiceConfig } from '@libs/config';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import {
+  MicroserviceOptions,
+  RpcException,
+  Transport,
+} from '@nestjs/microservices';
 import { ILoggerService } from '@libs/logger';
-import { UnhandledExceptionFilter } from '@libs/shared';
+import { HttpStatus, ValidationError, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,18 +23,38 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  app.useGlobalFilters(new UnhandledExceptionFilter(logger));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: (validationErrors: ValidationError[] = []) => {
+        const errorInfos = validationErrors.map((error) => ({
+          field: error.property,
+          error: Object.values(error.constraints),
+        }));
+
+        return new RpcException({
+          statusCode: HttpStatus.BAD_REQUEST,
+          code: 'VALIDATION_ERROR_TEST',
+          message: 'Validation error',
+          details: errorInfos,
+        });
+      },
+    }),
+  );
 
   const serviceConfig = app.get<ConfigType<typeof ServiceConfig>>(
     ServiceConfig.KEY,
   );
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      port: parseInt(serviceConfig.user.tcpPort),
+  app.connectMicroservice<MicroserviceOptions>(
+    {
+      transport: Transport.TCP,
+      options: {
+        port: parseInt(serviceConfig.user.tcpPort),
+      },
     },
-  });
+    { inheritAppConfig: true },
+  );
 
   await app.startAllMicroservices();
   logger.info(
