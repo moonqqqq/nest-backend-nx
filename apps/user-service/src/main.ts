@@ -35,7 +35,7 @@ async function bootstrap() {
 
         return new RpcException({
           statusCode: HttpStatus.BAD_REQUEST,
-          code: 'VALIDATION_ERROR_TEST',
+          code: 'VALIDATION_ERROR',
           message: 'Validation error',
           details: errorInfos,
         });
