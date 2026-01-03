@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ApiEndpoint, ApiVersion } from '@libs/shared';
 import { ApiTags } from '@nestjs/swagger';
 import { IUserService } from './interfaces/user-service.interface';
@@ -11,13 +11,13 @@ export class UserController {
   constructor(private readonly userService: IUserService) {}
 
   @MessagePattern('create_user')
-  async createUser(createUserPayload: CreateUserPayload) {
+  async createUser(@Payload() createUserPayload: CreateUserPayload) {
     await this.userService.createUser(createUserPayload);
     return null;
   }
 
   @MessagePattern('signin')
-  async login(loginPayload: SigninPayload) {
+  async login(@Payload() loginPayload: SigninPayload) {
     const tokens = await this.userService.login(loginPayload);
     return tokens;
   }
