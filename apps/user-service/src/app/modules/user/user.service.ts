@@ -12,8 +12,12 @@ export class UserService implements IUserService {
     const isDuplicate = await this.userRepository.checkEmailIsDuplicate(
       createUserPayload.email,
     );
-    if (isDuplicate)
-      throw new UserAlreadyExists({ email: createUserPayload.email });
+    if (isDuplicate) {
+      const exception = new UserAlreadyExists({
+        email: createUserPayload.email,
+      });
+      throw exception;
+    }
 
     await this.userRepository.create(createUserPayload);
   }
