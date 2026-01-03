@@ -33,8 +33,9 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(serviceConfig.user.port);
-  logger.info(`🚀 USER SERVICE is running on: ${serviceConfig.user.port}`);
+  logger.info(
+    `🚀 USER SERVICE is running on TCP: ${serviceConfig.user.tcpPort}`,
+  );
 }
 
 bootstrap();

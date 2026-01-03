@@ -1,14 +1,10 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ServiceConfig } from '@libs/config';
 import { ConfigType } from '@nestjs/config';
-import { UnhandledExceptionFilter } from '@libs/shared';
+import { HttpExceptionFilter, UnhandledExceptionFilter } from '@libs/shared';
 import { ILoggerService } from '@libs/logger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,13 +14,17 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new UnhandledExceptionFilter(logger));
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const serviceConfig = app.get<ConfigType<typeof ServiceConfig>>(
     ServiceConfig.KEY,
   );
-  await app.listen(serviceConfig.auth.port);
-  logger.info(`🚀 AUTH SERVICE is running on: ${serviceConfig.auth.port}`);
+
+  const port = serviceConfig.gateway.port;
+  await app.listen(port);
+  logger.info(`🚀 API GATEWAY is running on: ${port}`);
 }
 
 bootstrap();

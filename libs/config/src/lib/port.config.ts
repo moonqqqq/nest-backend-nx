@@ -11,4 +11,7 @@ export default registerAs('services', () => ({
     port: process.env.AUTH_SERVICE_PORT || '3002',
     tcpPort: process.env.AUTH_SERVICE_TCP_PORT || '3012',
   },
+  gateway: {
+    port: process.env.GATEWAY_PORT || '3000',
+  },
 }));

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { ILoggerService } from '@libs/logger';
 import { BaseExceptionFilter } from '@nestjs/core';
 
+// TODO: microservice 구조 맞춰서 고도화
 @Catch()
 export class UnhandledExceptionFilter extends BaseExceptionFilter {
   constructor(private readonly logger: ILoggerService) {
