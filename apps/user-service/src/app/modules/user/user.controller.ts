@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { ApiEndpoint, ApiVersion } from '@libs/shared';
+import { ApiEndpoint, ApiVersion, EmptyResDTO } from '@libs/shared';
 import { ApiTags } from '@nestjs/swagger';
 import { IUserService } from './interfaces/user-service.interface';
 import { CreateUserPayload } from '@libs/user';
@@ -12,6 +12,7 @@ export class UserController {
 
   @MessagePattern('create_user')
   async createUser(createUserPayload: CreateUserPayload) {
-    return await this.userService.createUser(createUserPayload);
+    await this.userService.createUser(createUserPayload);
+    return new EmptyResDTO();
   }
 }

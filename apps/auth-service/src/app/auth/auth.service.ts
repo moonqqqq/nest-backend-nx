@@ -1,11 +1,12 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { IAuthService } from './interfaces/auth-service.interface';
 import { JWTService } from '@libs/jwt';
-import { CreateUserPayload, UserProfile } from '@libs/user';
+import { CreateUserPayload } from '@libs/user';
 import { ClientProxy } from '@nestjs/microservices';
 import { ServiceConfig } from '@libs/config';
 import { ConfigType } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
+import { EmptyResDTO } from '@libs/shared';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -20,7 +21,7 @@ export class AuthService implements IAuthService {
   async signup(createUserPayload: CreateUserPayload) {
     try {
       await firstValueFrom(
-        this.userService.send<UserProfile>('create_user', createUserPayload),
+        this.userService.send<EmptyResDTO>('create_user', createUserPayload),
       );
     } catch (e) {
       if (e.message.includes('Email is duplicate')) {

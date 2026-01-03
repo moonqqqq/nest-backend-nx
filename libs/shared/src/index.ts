@@ -9,6 +9,8 @@ export * from './lib/domains/base.domain';
 // dtos
 export * from './lib/dtos/id-param.dto';
 export * from './lib/dtos/jwt-token.dto';
+export * from './lib/dtos/empty-res.dto';
+export * from './lib/dtos/res.dto';
 
 // types
 export * from './lib/types/user-payload.interface';
