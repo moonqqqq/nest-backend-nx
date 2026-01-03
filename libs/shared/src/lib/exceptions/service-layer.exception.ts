@@ -31,3 +31,25 @@ export class UserAlreadyExists extends ServiceRpcException {
     );
   }
 }
+
+export class UserNotFoundException extends ServiceRpcException {
+  constructor(details?: Record<string, any>) {
+    super(
+      HttpStatus.NOT_FOUND,
+      'USER_NOT_FOUND',
+      'User not found',
+      details || {},
+    );
+  }
+}
+
+export class InvalidPassword extends ServiceRpcException {
+  constructor(details?: Record<string, any>) {
+    super(
+      HttpStatus.UNAUTHORIZED,
+      'INVALID_PASSWORD',
+      'Invalid password',
+      details || {},
+    );
+  }
+}

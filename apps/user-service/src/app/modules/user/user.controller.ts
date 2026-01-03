@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
-import { ApiEndpoint, ApiVersion, EmptyResDTO } from '@libs/shared';
+import { ApiEndpoint, ApiVersion } from '@libs/shared';
 import { ApiTags } from '@nestjs/swagger';
 import { IUserService } from './interfaces/user-service.interface';
-import { CreateUserPayload } from '@libs/user';
+import { CreateUserPayload, SigninPayload } from '@libs/user';
 
 @ApiTags(ApiEndpoint.USERS)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.USERS}`)
@@ -13,6 +13,12 @@ export class UserController {
   @MessagePattern('create_user')
   async createUser(createUserPayload: CreateUserPayload) {
     await this.userService.createUser(createUserPayload);
-    return new EmptyResDTO();
+    return null;
+  }
+
+  @MessagePattern('signin')
+  async login(loginPayload: SigninPayload) {
+    const tokens = await this.userService.login(loginPayload);
+    return tokens;
   }
 }
