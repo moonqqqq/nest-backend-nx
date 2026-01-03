@@ -15,17 +15,22 @@ export class UnhandledExceptionFilter extends BaseExceptionFilter {
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
 
-    const status = exception.statusCode
-      ? exception.statusCode
+    // 1. 마이크로서비스에서 온 에러(exception.error)인지, 일반 에러인지 확인하여 데이터 추출
+    // RpcException으로 전달하다보니 error에 값들이 들어감.
+    const errorResponse = exception.error || exception;
+
+    // 2. 추출된 데이터에서 상태 코드 결정
+    const status = errorResponse.statusCode
+      ? errorResponse.statusCode
       : HttpStatus.INTERNAL_SERVER_ERROR;
+
     const reqBody = req?.body ? JSON.stringify(req.body) : '';
 
-    // Send alert here or in logging server
     this.logger.error(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      `[${new Date()}] [${req.method}] ${req.url}/ body:${reqBody} / code: ${exception} - ${exception.stack}}`,
+      `[${new Date()}] [${req.method}] ${req.url} body:${reqBody} / error: ${JSON.stringify(errorResponse)}`,
     );
 
-    res.status(status).json(exception);
+    // 3. 중첩된 exception 대신 실제 에러 데이터(errorResponse)만 반환
+    res.status(status).json(errorResponse);
   }
 }

@@ -15,18 +15,19 @@ export class AllExceptionForMicroserviceFilter {
     }
 
     const rpcCtx = host.switchToRpc();
-    const payload = rpcCtx.getData(); // DTO
+    const input = rpcCtx.getData(); // DTO
+    const message = (exception as any).message;
+    const stack = (exception as any).stack;
 
     return throwError(
       () =>
         new RpcException({
           statusCode: 500,
-          code: (exception as any)['code'] ?? 'INTERNAL_ERROR',
-          message:
-            exception instanceof Error ? exception.message : 'Unknown error',
+          code: (exception as any).code ?? 'INTERNAL_ERROR',
+          message,
           details: {
-            payload,
-            // context는 필요한 것만
+            input,
+            stack,
           },
         }),
     );
