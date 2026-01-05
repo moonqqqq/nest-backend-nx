@@ -20,7 +20,8 @@
       "@libs/config": ["libs/config/src/index.ts"],
       "@libs/jwt": ["libs/jwt/src/index.ts"],
       "@libs/user": ["libs/user/src/index.ts"],
-      "@libs/database": ["libs/database/src/index.ts"]
+      "@libs/database": ["libs/database/src/index.ts"],
+      "@libs/llm-session": ["libs/llm-session/src/index.ts"]
     },
     "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true

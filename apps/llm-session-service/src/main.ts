@@ -3,18 +3,64 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
+import { ConfigType } from '@nestjs/config';
+import { ServiceConfig } from '@libs/config';
+import {
+  MicroserviceOptions,
+  RpcException,
+  Transport,
+} from '@nestjs/microservices';
+import { ILoggerService } from '@libs/logger';
+import { HttpStatus, ValidationError, ValidationPipe } from '@nestjs/common';
+import { AllExceptionForMicroserviceFilter } from '@libs/shared';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const logger = app.get(ILoggerService);
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: (validationErrors: ValidationError[] = []) => {
+        const errorInfos = validationErrors.map((error) => ({
+          field: error.property,
+          error: Object.values(error.constraints),
+        }));
+
+        return new RpcException({
+          statusCode: HttpStatus.BAD_REQUEST,
+          code: 'VALIDATION_ERROR',
+          message: 'Validation error',
+          details: errorInfos,
+        });
+      },
+    }),
+  );
+  app.useGlobalFilters(new AllExceptionForMicroserviceFilter());
+
+  const serviceConfig = app.get<ConfigType<typeof ServiceConfig>>(
+    ServiceConfig.KEY,
+  );
+
+  app.connectMicroservice<MicroserviceOptions>(
+    {
+      transport: Transport.TCP,
+      options: {
+        port: parseInt(serviceConfig.llmSession.tcpPort),
+      },
+    },
+    { inheritAppConfig: true },
+  );
+
+  await app.startAllMicroservices();
+  logger.info(
+    `🚀 LLM SESSION SERVICE is running on TCP: ${serviceConfig.llmSession.tcpPort}`,
   );
 }
 

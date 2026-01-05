@@ -4,6 +4,8 @@ import { AppConfig, ServiceConfig } from '@libs/config';
 import { LoggerModule } from '@libs/logger';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth/auth.controller';
+import { LlmSessionController } from './auth/llm-session.controller';
+import { JWTModule } from '@libs/shared';
 
 @Module({
   imports: [
@@ -12,6 +14,7 @@ import { AuthController } from './auth/auth.controller';
       load: [AppConfig, ServiceConfig],
     }),
     LoggerModule,
+    JWTModule,
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',
@@ -33,9 +36,19 @@ import { AuthController } from './auth/auth.controller';
         }),
         inject: [ServiceConfig.KEY],
       },
+      {
+        name: 'LLM_SESSION_SERVICE',
+        useFactory: (config: ConfigType<typeof ServiceConfig>) => ({
+          transport: Transport.TCP,
+          options: {
+            port: parseInt(config.llmSession.tcpPort),
+          },
+        }),
+        inject: [ServiceConfig.KEY],
+      },
     ]),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, LlmSessionController],
   providers: [],
 })
 export class AppModule {}

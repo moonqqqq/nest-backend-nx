@@ -31,3 +31,6 @@ export * from './lib/jwt/jwt.service';
 
 // guards
 export * from './lib/guards/jwt-auth.guard';
+
+// decorators
+export * from './lib/decorators/user.decorator';
