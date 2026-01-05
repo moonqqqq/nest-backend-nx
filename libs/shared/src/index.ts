@@ -28,3 +28,6 @@ export * from './lib/exceptions/service-layer.exception';
 // jwt
 export * from './lib/jwt/jwt.module';
 export * from './lib/jwt/jwt.service';
+
+// guards
+export * from './lib/guards/jwt-auth.guard';
