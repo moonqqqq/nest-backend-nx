@@ -5,9 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { ILoggerService } from '@libs/logger';
 import * as jwt from 'jsonwebtoken';
-import { IUserPayload, JWTTokensDTO } from '@libs/shared';
+import { JWTTokensDTO } from '../dtos/jwt-token.dto';
+import { IUserPayload } from '../types/user-payload.interface';
 import { AppConfig } from '@libs/config';
 
 @Injectable()
@@ -15,7 +15,6 @@ export class JWTService {
   constructor(
     @Inject(AppConfig.KEY)
     private appConfig: ConfigType<typeof AppConfig>,
-    private readonly loggerService: ILoggerService,
   ) {}
 
   async createJWT(userData: IUserPayload): Promise<JWTTokensDTO> {
@@ -52,7 +51,6 @@ export class JWTService {
 
       jwt.sign(payload, secretKey, options, (err, token) => {
         if (err) {
-          this.loggerService.error(err);
           reject(err);
         } else {
           resolve(token as string);
@@ -81,7 +79,6 @@ export class JWTService {
             } else if (err.message === 'jwt malformed') {
               reject(new UnauthorizedException('JWT malformed'));
             } else {
-              this.loggerService.error(err);
               reject(err);
             }
           } else {

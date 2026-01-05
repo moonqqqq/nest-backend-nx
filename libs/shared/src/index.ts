@@ -24,3 +24,7 @@ export * from './lib/filters/all-exception-for-microservice.filter';
 // exceptions
 export * from './lib/exceptions/repository-layer.exception';
 export * from './lib/exceptions/service-layer.exception';
+
+// jwt
+export * from './lib/jwt/jwt.module';
+export * from './lib/jwt/jwt.service';

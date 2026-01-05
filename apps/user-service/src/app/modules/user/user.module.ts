@@ -5,7 +5,7 @@ import { IUserRepository } from './interfaces/user-repository.interface';
 import { UserRepository } from './user.repository';
 import { IUserService } from './interfaces/user-service.interface';
 import { DatabaseModule } from '@libs/database';
-import { JWTModule } from '@libs/jwt';
+import { JWTModule } from '@libs/shared';
 
 @Module({
   imports: [DatabaseModule, JWTModule],

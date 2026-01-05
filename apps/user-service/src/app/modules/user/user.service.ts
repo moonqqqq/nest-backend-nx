@@ -8,7 +8,7 @@ import {
   UserAlreadyExists,
   UserNotFoundException,
 } from '@libs/shared';
-import { JWTService } from '@libs/jwt';
+import { JWTService } from '@libs/shared';
 
 @Injectable()
 export class UserService implements IUserService {
