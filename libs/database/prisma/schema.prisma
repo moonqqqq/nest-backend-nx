@@ -18,9 +18,49 @@ model UserEntity {
   email       String             @unique
   password    String
   name        String
+
+  llmSessions   LlmSessionEntity[]
   
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @db.Timestamptz(3)
 
   @@map("User")
+}
+
+model LlmSessionEntity {
+  id         String              @id @default(uuid())
+  title      String?
+  isDraft    Boolean             @default(true)
+
+  user       UserEntity          @relation(fields: [userId], references: [id])
+  userId     String
+
+  chats      LlmMessageEntity[]
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@map("LlmSession")
+  @@index([userId])
+}
+
+enum LlmMessageType {
+  USER
+  AI
+  SYSTEM
+}
+
+model LlmMessageEntity {
+  id         String                 @id @default(uuid())
+  type       LlmMessageType
+  content    String?
+
+  llmSessionId String
+  llmSession   LlmSessionEntity     @relation(fields: [llmSessionId], references: [id])
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@map("LlmMessage")
+  @@index([createdAt])
 }
