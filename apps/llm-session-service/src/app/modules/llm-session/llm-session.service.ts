@@ -15,4 +15,8 @@ export class LlmSessionService implements ILlmSessionService {
 
     return await this.llmSessionRepository.create(llmSession);
   }
+
+  async getLlmSessions(userId: string): Promise<LlmSession[]> {
+    return await this.llmSessionRepository.getLlmSessions(userId);
+  }
 }

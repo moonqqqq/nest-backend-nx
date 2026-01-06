@@ -1,4 +1,4 @@
-import { Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   ApiEndpoint,
@@ -28,5 +28,15 @@ export class LlmSessionController {
       this.llmSessionService.send<LlmSession>('create_llm_session', { userId }),
     );
     return new ResDTO(createdLlmSession);
+  }
+
+  @Get()
+  @UseGuards(JWTAuthGuard)
+  async getLlmSessions(@ReqUser() currentUser: IUserPayload) {
+    const userId = currentUser.id;
+    const llmSessions = await firstValueFrom(
+      this.llmSessionService.send<LlmSession[]>('get_llm_sessions', { userId }),
+    );
+    return new ResDTO(llmSessions);
   }
 }
