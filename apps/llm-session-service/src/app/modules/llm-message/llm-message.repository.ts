@@ -22,4 +22,13 @@ export class LlmMessageRepository implements ILlmMessageRepository {
 
     return LlmMessage.fromEntity(createdLlmMessageEntity);
   }
+
+  async getLlmMessages(llmSessionId: string): Promise<LlmMessage[]> {
+    const llmMessages = await this.prisma.llmMessageEntity.findMany({
+      where: { llmSessionId },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    return llmMessages.map(LlmMessage.fromEntity);
+  }
 }

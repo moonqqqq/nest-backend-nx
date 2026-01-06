@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
   ApiEndpoint,
@@ -37,5 +45,21 @@ export class LlmMessageController {
       }),
     );
     return new ResDTO(createdLlmMessage);
+  }
+
+  @Get()
+  @UseGuards(JWTAuthGuard)
+  async getLlmMessages(
+    @ReqUser() currentUser: IUserPayload,
+    @Query('llmSessionId') llmSessionId: string,
+  ) {
+    const userId = currentUser.id;
+    const llmMessages = await firstValueFrom(
+      this.llmSessionService.send<LlmMessage[]>('get_llm_messages', {
+        userId,
+        llmSessionId,
+      }),
+    );
+    return new ResDTO(llmMessages);
   }
 }

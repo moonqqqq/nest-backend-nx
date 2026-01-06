@@ -27,4 +27,13 @@ export class LlmMessageService implements ILlmMessageService {
 
     return await this.llmMessageRepository.create(llmMessage);
   }
+
+  async getLlmMessages(
+    userId: string,
+    llmSessionId: string,
+  ): Promise<LlmMessage[]> {
+    await this.llmSessionService.checkAuth(userId, llmSessionId);
+
+    return await this.llmMessageRepository.getLlmMessages(llmSessionId);
+  }
 }

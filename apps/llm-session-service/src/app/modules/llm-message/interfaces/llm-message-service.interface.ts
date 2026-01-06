@@ -6,4 +6,8 @@ export abstract class ILlmMessageService {
     llmSessionId: string,
     content: string,
   ): Promise<LlmMessage>;
+  abstract getLlmMessages(
+    userId: string,
+    llmSessionId: string,
+  ): Promise<LlmMessage[]>;
 }
