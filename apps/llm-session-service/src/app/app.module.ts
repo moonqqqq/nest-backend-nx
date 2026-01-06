@@ -6,6 +6,7 @@ import { LoggerModule } from '@libs/logger';
 import { AppConfig, ServiceConfig } from '@libs/config';
 import { DatabaseModule } from '@libs/database';
 import { ConfigModule } from '@nestjs/config';
+import { LlmMessageModule } from './modules/llm-message/llm-message.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     DatabaseModule,
     LlmSessionModule,
     LoggerModule,
+    LlmMessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],
