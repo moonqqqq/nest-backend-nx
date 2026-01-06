@@ -4,9 +4,9 @@ import { AppConfig, ServiceConfig } from '@libs/config';
 import { LoggerModule } from '@libs/logger';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth/auth.controller';
-import { LlmSessionController } from './auth/llm-session.controller';
+import { LlmSessionController } from './llm-session/llm-session.controller';
 import { JWTModule } from '@libs/shared';
-import { LlmMessageController } from './auth/llm-message.controller';
+import { LlmMessageController } from './llm-session/llm-message.controller';
 
 @Module({
   imports: [
