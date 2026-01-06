@@ -1,3 +1,3 @@
 export * from './lib/domains/user-profile.domain';
-export * from './lib/dtos/create-user.dto';
-export * from './lib/dtos/login.dto';
+export * from './lib/payloads/create-user.payload';
+export * from './lib/payloads/login.payload';
