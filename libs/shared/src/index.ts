@@ -34,3 +34,6 @@ export * from './lib/guards/jwt-auth.guard';
 
 // decorators
 export * from './lib/decorators/user.decorator';
+
+// events
+export * from './lib/events/app.event';
