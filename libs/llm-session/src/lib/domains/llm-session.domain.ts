@@ -1,11 +1,11 @@
 import { BaseDomain } from '@libs/shared';
 
 export class LlmSession extends BaseDomain {
-  public readonly userId: string;
-  public readonly title: string;
-  public readonly isDraft: boolean;
-  public readonly createdAt?: Date;
-  public readonly updatedAt?: Date;
+  readonly userId: string;
+  readonly title: string;
+  readonly isDraft: boolean;
+  readonly createdAt?: Date;
+  readonly updatedAt?: Date;
 
   constructor(payload: {
     id?: string;
@@ -39,5 +39,9 @@ export class LlmSession extends BaseDomain {
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     });
+  }
+
+  checkOwnership(userId: string): boolean {
+    return this.userId === userId;
   }
 }

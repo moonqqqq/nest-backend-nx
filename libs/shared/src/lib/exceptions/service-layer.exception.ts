@@ -53,3 +53,9 @@ export class InvalidPassword extends ServiceRpcException {
     );
   }
 }
+
+export class WrongId extends ServiceRpcException {
+  constructor(details?: Record<string, any>) {
+    super(HttpStatus.BAD_REQUEST, 'WRONG_ID', 'Wrong ID', details || {});
+  }
+}

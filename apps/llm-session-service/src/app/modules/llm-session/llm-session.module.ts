@@ -19,5 +19,11 @@ import { DatabaseModule } from '@libs/database';
       useClass: LlmSessionRepository,
     },
   ],
+  exports: [
+    {
+      provide: ILlmSessionService,
+      useClass: LlmSessionService,
+    },
+  ],
 })
 export class LlmSessionModule {}

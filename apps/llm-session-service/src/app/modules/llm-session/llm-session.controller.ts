@@ -8,8 +8,8 @@ import {
   GetLlmSessionsPayload,
 } from '@libs/llm-session';
 
-@ApiTags(ApiEndpoint.LLM_SESSION)
-@Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSION}`)
+@ApiTags(ApiEndpoint.LLM_SESSIONS)
+@Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSIONS}`)
 export class LlmSessionController {
   constructor(private readonly llmSessionService: ILlmSessionService) {}
 

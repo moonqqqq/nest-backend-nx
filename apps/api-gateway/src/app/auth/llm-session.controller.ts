@@ -12,8 +12,8 @@ import { firstValueFrom } from 'rxjs';
 import { JWTAuthGuard } from '@libs/shared';
 import { LlmSession } from '@libs/llm-session';
 
-@ApiTags(ApiEndpoint.LLM_SESSION)
-@Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSION}`)
+@ApiTags(ApiEndpoint.LLM_SESSIONS)
+@Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSIONS}`)
 export class LlmSessionController {
   constructor(
     @Inject('LLM_SESSION_SERVICE')

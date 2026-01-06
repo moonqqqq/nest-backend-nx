@@ -27,4 +27,12 @@ export class LlmSessionRepository implements ILlmSessionRepository {
 
     return llmSessions.map(LlmSession.fromEntity);
   }
+
+  async getLlmSessionById(llmSessionId: string): Promise<LlmSession | null> {
+    const llmSession = await this.prisma.llmSessionEntity.findUnique({
+      where: { id: llmSessionId },
+    });
+    if (!llmSession) return null;
+    return LlmSession.fromEntity(llmSession);
+  }
 }

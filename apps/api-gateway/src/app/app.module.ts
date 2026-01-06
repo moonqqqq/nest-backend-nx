@@ -6,6 +6,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth/auth.controller';
 import { LlmSessionController } from './auth/llm-session.controller';
 import { JWTModule } from '@libs/shared';
+import { LlmMessageController } from './auth/llm-message.controller';
 
 @Module({
   imports: [
@@ -48,7 +49,7 @@ import { JWTModule } from '@libs/shared';
       },
     ]),
   ],
-  controllers: [AuthController, LlmSessionController],
+  controllers: [AuthController, LlmSessionController, LlmMessageController],
   providers: [],
 })
 export class AppModule {}
