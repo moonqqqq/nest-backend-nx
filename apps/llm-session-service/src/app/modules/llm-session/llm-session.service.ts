@@ -33,8 +33,8 @@ export class LlmSessionService implements ILlmSessionService {
     return llmSession;
   }
 
-  async setDraftToFalse(llmSession: LlmSession): Promise<LlmSession> {
-    llmSession.setDraftToFalse();
+  async publish(llmSession: LlmSession): Promise<LlmSession> {
+    llmSession.publish();
     return await this.llmSessionRepository.update(llmSession);
   }
 

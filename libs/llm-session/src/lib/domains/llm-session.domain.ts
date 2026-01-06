@@ -45,11 +45,11 @@ export class LlmSession extends BaseDomain {
     return this.userId === userId;
   }
 
-  getIsDraft(): boolean {
+  isDraftSession(): boolean {
     return this.isDraft;
   }
 
-  setDraftToFalse() {
+  publish() {
     this.isDraft = false;
   }
 }

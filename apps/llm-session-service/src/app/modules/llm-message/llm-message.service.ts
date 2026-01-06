@@ -28,8 +28,8 @@ export class LlmMessageService implements ILlmMessageService {
       content,
     });
 
-    if (llmSession.getIsDraft()) {
-      await this.llmSessionService.setDraftToFalse(llmSession);
+    if (llmSession.isDraftSession()) {
+      await this.llmSessionService.publish(llmSession);
     }
 
     return await this.llmMessageRepository.create(llmMessage);
