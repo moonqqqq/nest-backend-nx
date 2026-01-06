@@ -17,13 +17,20 @@ export class LlmMessageService implements ILlmMessageService {
     llmSessionId: string,
     content: string,
   ): Promise<LlmMessage> {
-    await this.llmSessionService.checkAuth(userId, llmSessionId);
+    const llmSession = await this.llmSessionService.checkAuth(
+      userId,
+      llmSessionId,
+    );
 
     const llmMessage = new LlmMessage({
-      llmSessionId,
+      llmSessionId: llmSession.getId(),
       type: LlmMessageType.USER,
       content,
     });
+
+    if (llmSession.getIsDraft()) {
+      await this.llmSessionService.setDraftToFalse(llmSession);
+    }
 
     return await this.llmMessageRepository.create(llmMessage);
   }

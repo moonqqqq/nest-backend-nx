@@ -19,6 +19,17 @@ export class LlmSessionRepository implements ILlmSessionRepository {
     return LlmSession.fromEntity(createdLlmSessionEntity);
   }
 
+  async update(llmSession: LlmSession): Promise<LlmSession> {
+    const updatedLlmSessionEntity = await this.prisma.llmSessionEntity.update({
+      where: { id: llmSession.getId() },
+      data: {
+        title: llmSession.title,
+        isDraft: llmSession.isDraft,
+      },
+    });
+    return LlmSession.fromEntity(updatedLlmSessionEntity);
+  }
+
   async getLlmSessions(userId: string): Promise<LlmSession[]> {
     const llmSessions = await this.prisma.llmSessionEntity.findMany({
       where: { userId, isDraft: false },

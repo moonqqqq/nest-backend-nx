@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ILlmSessionService } from './interfaces/llm-session-service.interface';
 import { LlmSession } from '@libs/llm-session';
 import { ILlmSessionRepository } from './interfaces/llm-session-repository.interface';
-import { WrongId } from '@libs/shared';
+import { NotOwner, WrongId } from '@libs/shared';
 
 @Injectable()
 export class LlmSessionService implements ILlmSessionService {
@@ -21,12 +21,24 @@ export class LlmSessionService implements ILlmSessionService {
     return await this.llmSessionRepository.getLlmSessions(userId);
   }
 
-  async checkAuth(userId: string, llmSessionId: string): Promise<boolean> {
+  async checkAuth(userId: string, llmSessionId: string): Promise<LlmSession> {
     const llmSession =
       await this.llmSessionRepository.getLlmSessionById(llmSessionId);
 
     if (!llmSession) throw new WrongId({ llmSessionId });
 
-    return llmSession.checkOwnership(userId);
+    if (!llmSession.checkOwnership(userId))
+      throw new NotOwner({ llmSessionId });
+
+    return llmSession;
+  }
+
+  async setDraftToFalse(llmSession: LlmSession): Promise<LlmSession> {
+    llmSession.setDraftToFalse();
+    return await this.llmSessionRepository.update(llmSession);
+  }
+
+  async update(llmSession: LlmSession): Promise<LlmSession> {
+    return await this.llmSessionRepository.update(llmSession);
   }
 }

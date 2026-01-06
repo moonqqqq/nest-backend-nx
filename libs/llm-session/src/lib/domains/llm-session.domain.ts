@@ -3,7 +3,7 @@ import { BaseDomain } from '@libs/shared';
 export class LlmSession extends BaseDomain {
   readonly userId: string;
   readonly title: string;
-  readonly isDraft: boolean;
+  isDraft: boolean;
   readonly createdAt?: Date;
   readonly updatedAt?: Date;
 
@@ -43,5 +43,13 @@ export class LlmSession extends BaseDomain {
 
   checkOwnership(userId: string): boolean {
     return this.userId === userId;
+  }
+
+  getIsDraft(): boolean {
+    return this.isDraft;
+  }
+
+  setDraftToFalse() {
+    this.isDraft = false;
   }
 }

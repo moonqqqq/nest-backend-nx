@@ -59,3 +59,9 @@ export class WrongId extends ServiceRpcException {
     super(HttpStatus.BAD_REQUEST, 'WRONG_ID', 'Wrong ID', details || {});
   }
 }
+
+export class NotOwner extends ServiceRpcException {
+  constructor(details?: Record<string, any>) {
+    super(HttpStatus.FORBIDDEN, 'NOT_OWNER', 'Not owner', details || {});
+  }
+}
