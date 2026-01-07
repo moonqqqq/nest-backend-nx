@@ -4,6 +4,7 @@ export const AppEventType = {
 
   // stream event
   STREAM_STARTED: 'stream_started',
+  STREAM_INTERNAL_THINKING: 'stream_internal_thinking',
   STREAM_MESSAGE: 'stream_message',
   STREAM_COMPLETED: 'stream_completed',
   STREAM_FAILED: 'stream_failed',
