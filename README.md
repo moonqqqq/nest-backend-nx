@@ -32,7 +32,7 @@ LLM 호출/응답 스트리밍 관리 마이크로서비스 백엔드 구현
   - [x] 1.2. LLM Session(chatroom) 생성, 조회 API 구현
   - [x] 1.3. LLM Message 생성, 목록 조회 API 구현
 2. 전체 서버에서 이용할 Streaming event 객체 표준화
-  - [ ] 2.1. 필요 데이터: sequence 값, event type, payload, etc...
+  - [x] 2.1. 필요 데이터: sequence 값, event type, payload, etc... // sequence는 redis stream에서 관리해서 불필요 event.id 로 알아서 관리됨.
   - [ ] 2.2. 필요 이벤트: 실행, 중간 메시지, 종료, 실패, ...
   - [ ] 2.3. LLM Response Message의 상태 추가 (pending, processing, completed, failed ...)
 3. LLM 응답 구현

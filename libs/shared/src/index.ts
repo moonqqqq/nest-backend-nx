@@ -37,3 +37,5 @@ export * from './lib/decorators/user.decorator';
 
 // events
 export * from './lib/events/app.event';
+export * from './lib/events/event-formatter';
+export * from './lib/types/app-event.typs';
