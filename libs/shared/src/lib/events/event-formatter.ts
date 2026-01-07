@@ -3,22 +3,23 @@ import { AppEvent } from './app.event';
 import { TAppEventType } from '../types/app-event.typs';
 
 export class EventFormatter {
+  // @Sse 데코레이터가 알아서 해줌.
   /**
    * 1. Output (내보내기): AppEvent 객체 -> SSE 문자열
    */
-  static toSseString(event: AppEvent): string {
-    let outputString = '';
+  // static toSseString(event: AppEvent): string {
+  //   let outputString = '';
 
-    // 메타데이터 처리
-    if (event.id) outputString += `id: ${event.id}\n`;
-    if (event.type) outputString += `event: ${event.type}\n`;
-    outputString += `retry: 3000\n`; // 나중에 동적으로 설정하도록. 부하가 클때면 숫자 늘리고 부하가 적으면 숫자 작게.
-    if (event.payload) {
-      outputString += `data: ${JSON.stringify(event.payload)}\n\n`;
-    }
+  //   // 메타데이터 처리
+  //   if (event.id) outputString += `id: ${event.id}\n`;
+  //   if (event.type) outputString += `event: ${event.type}\n`;
+  //   outputString += `retry: 3000\n`; // 나중에 동적으로 설정하도록. 부하가 클때면 숫자 늘리고 부하가 적으면 숫자 작게.
+  //   if (event.payload) {
+  //     outputString += `data: ${JSON.stringify(event.payload)}\n\n`;
+  //   }
 
-    return outputString;
-  }
+  //   return outputString;
+  // }
 
   /**
    * 2. Input (받아오기): 파싱된 SSE 데이터 -> AppEvent 객체
@@ -45,7 +46,7 @@ export class EventFormatter {
     return new AppEvent({
       id: id,
       type: event as TAppEventType,
-      payload: data,
+      data,
     });
   }
 }
