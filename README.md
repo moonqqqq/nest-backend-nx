@@ -36,7 +36,7 @@ LLM 호출/응답 스트리밍 관리 마이크로서비스 백엔드 구현
   - [x] 2.2. 필요 이벤트: 실행, 중간 메시지, 종료, 실패, ...
   - [x] 2.3. LLM Response Message의 상태 추가 (pending, processing, completed, failed ...)
 3. LLM 응답 구현
-  - [ ] 3.1 Mock LLM  응답 스트리밍 서버 구현
+  - [x] 3.1 Mock LLM  응답 스트리밍 서버 구현
   - [ ] 3.2. [1.3]API와 연결 - 여기까지는 단순 스트리밍
 4. Streaming 백그라운드 파이파라인 구축(API서버와 완전한 분리)
   - [ ] 4.1. LLM서버로부터 Stream으로 받고 있는 데이터들을 임시 저장하는 저장소 구현
