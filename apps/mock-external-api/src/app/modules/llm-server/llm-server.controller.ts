@@ -1,6 +1,7 @@
 import { Controller, Query, Sse } from '@nestjs/common';
-import { from } from 'rxjs';
+import { merge } from 'rxjs';
 import { LlmServerService } from './llm-server.service';
+import { sseHeartbeat$ } from '@libs/shared';
 
 @Controller('mock-llm-server')
 export class LlmServerController {
@@ -11,6 +12,6 @@ export class LlmServerController {
     const llmAnswerStream$ =
       this.llmServerService.createMockLlmAnswerStream(question);
 
-    return from(llmAnswerStream$);
+    return merge(llmAnswerStream$, sseHeartbeat$);
   }
 }

@@ -38,7 +38,7 @@ export class LlmServerService {
     for (let i = 0; i < mockResponse.length; i += chunkSize) {
       const chunk = mockResponse.slice(i, i + chunkSize);
       yield { type: AppEventType.STREAM_MESSAGE, data: { message: chunk } };
-      await this.delay(80); // 80ms 지연으로 타이핑 효과
+      await this.delay(1000); // 1000ms 지연으로 타이핑 효과
     }
 
     await this.delay(500);
