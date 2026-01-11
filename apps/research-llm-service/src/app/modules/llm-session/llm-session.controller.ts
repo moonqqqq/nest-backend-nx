@@ -6,7 +6,7 @@ import {
   CreateLlmSessionPayload,
   GetLlmSessionsPayload,
   ILlmSessionService,
-} from '@libs/llm-session';
+} from '@libs/research-llm';
 
 @ApiTags(ApiEndpoint.LLM_SESSIONS)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSIONS}`)

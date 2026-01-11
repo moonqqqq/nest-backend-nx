@@ -11,10 +11,10 @@
   },
   "include": [
     "src/**/*.ts",
-    "../../libs/llm-session/src/lib/llm-session/interfaces/llm-session-repository.interface.ts",
-    "../../libs/llm-session/src/lib/llm-session/interfaces/llm-session-service.interface.ts",
-    "../../libs/llm-session/src/lib/llm-session/repositories/llm-session.repository.ts",
-    "../../libs/llm-session/src/lib/llm-session/services/llm-session.service.ts"
+    "../../libs/research-llm/src/lib/llm-session/interfaces/llm-session-repository.interface.ts",
+    "../../libs/research-llm/src/lib/llm-session/interfaces/llm-session-service.interface.ts",
+    "../../libs/research-llm/src/lib/llm-session/repositories/llm-session.repository.ts",
+    "../../libs/research-llm/src/lib/llm-session/services/llm-session.service.ts"
   ],
   "exclude": [
     "jest.config.ts",

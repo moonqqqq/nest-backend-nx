@@ -1,7 +1,7 @@
 {
-  "name": "llm-session-service",
+  "name": "research-llm-service",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/llm-session-service/src",
+  "sourceRoot": "apps/research-llm-service/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,7 +10,7 @@
       "options": {
         "command": "webpack-cli build",
         "args": ["--node-env=production"],
-        "cwd": "apps/llm-session-service"
+        "cwd": "apps/research-llm-service"
       },
       "configurations": {
         "development": {
@@ -23,8 +23,8 @@
       "cache": true,
       "executor": "@nx/js:prune-lockfile",
       "outputs": [
-        "{workspaceRoot}/dist/apps/llm-session-service/package.json",
-        "{workspaceRoot}/dist/apps/llm-session-service/yarn.lock"
+        "{workspaceRoot}/dist/apps/research-llm-service/package.json",
+        "{workspaceRoot}/dist/apps/research-llm-service/yarn.lock"
       ],
       "options": {
         "buildTarget": "build"
@@ -34,7 +34,7 @@
       "dependsOn": ["build"],
       "cache": true,
       "outputs": [
-        "{workspaceRoot}/dist/apps/llm-session-service/workspace_modules"
+        "{workspaceRoot}/dist/apps/research-llm-service/workspace_modules"
       ],
       "executor": "@nx/js:copy-workspace-modules",
       "options": {
@@ -51,15 +51,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "llm-session-service:build",
+        "buildTarget": "research-llm-service:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "llm-session-service:build:development"
+          "buildTarget": "research-llm-service:build:development"
         },
         "production": {
-          "buildTarget": "llm-session-service:build:production"
+          "buildTarget": "research-llm-service:build:production"
         }
       }
     },

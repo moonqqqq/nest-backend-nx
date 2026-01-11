@@ -10,14 +10,14 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { JWTAuthGuard } from '@libs/shared';
-import { LlmSession } from '@libs/llm-session';
+import { LlmSession } from '@libs/research-llm';
 
 @ApiTags(ApiEndpoint.LLM_SESSIONS)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_SESSIONS}`)
 export class LlmSessionController {
   constructor(
-    @Inject('LLM_SESSION_SERVICE')
-    private readonly llmSessionService: ClientProxy,
+    @Inject('RESEARCH_LLM_SERVICE')
+    private readonly researchLlmService: ClientProxy,
   ) {}
 
   @Post()
@@ -25,7 +25,9 @@ export class LlmSessionController {
   async createLlmSession(@ReqUser() currentUser: IUserPayload) {
     const userId = currentUser.id;
     const createdLlmSession = await firstValueFrom(
-      this.llmSessionService.send<LlmSession>('create_llm_session', { userId }),
+      this.researchLlmService.send<LlmSession>('create_llm_session', {
+        userId,
+      }),
     );
     return new ResDTO(createdLlmSession);
   }
@@ -35,7 +37,9 @@ export class LlmSessionController {
   async getLlmSessions(@ReqUser() currentUser: IUserPayload) {
     const userId = currentUser.id;
     const llmSessions = await firstValueFrom(
-      this.llmSessionService.send<LlmSession[]>('get_llm_sessions', { userId }),
+      this.researchLlmService.send<LlmSession[]>('get_llm_sessions', {
+        userId,
+      }),
     );
     return new ResDTO(llmSessions);
   }

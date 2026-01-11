@@ -18,15 +18,15 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { JWTAuthGuard } from '@libs/shared';
-import { LlmMessage } from '@libs/llm-session';
+import { LlmMessage } from '@libs/research-llm';
 import { CreateLlmMessageBodyDTO } from './dtos/create-llm-message-body.dto';
 
 @ApiTags(ApiEndpoint.LLM_MESSAGES)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_MESSAGES}`)
 export class LlmMessageController {
   constructor(
-    @Inject('LLM_SESSION_SERVICE')
-    private readonly llmSessionService: ClientProxy,
+    @Inject('RESEARCH_LLM_SERVICE')
+    private readonly researchLlmService: ClientProxy,
   ) {}
 
   @Post()
@@ -38,7 +38,7 @@ export class LlmMessageController {
     const userId = currentUser.id;
 
     const createdLlmMessage = await firstValueFrom(
-      this.llmSessionService.send<LlmMessage>('create_llm_message', {
+      this.researchLlmService.send<LlmMessage>('create_llm_message', {
         userId,
         llmSessionId,
         content,
@@ -55,7 +55,7 @@ export class LlmMessageController {
   ) {
     const userId = currentUser.id;
     const llmMessages = await firstValueFrom(
-      this.llmSessionService.send<LlmMessage[]>('get_llm_messages', {
+      this.researchLlmService.send<LlmMessage[]>('get_llm_messages', {
         userId,
         llmSessionId,
       }),

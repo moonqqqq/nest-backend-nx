@@ -6,7 +6,7 @@ import {
   CreateLlmMessagePayload,
   GetLlmMessagesPayload,
   ILlmMessageService,
-} from '@libs/llm-session';
+} from '@libs/research-llm';
 
 @ApiTags(ApiEndpoint.LLM_MESSAGES)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.LLM_MESSAGES}`)

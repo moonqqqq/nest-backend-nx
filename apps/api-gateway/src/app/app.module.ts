@@ -38,11 +38,11 @@ import { LlmMessageController } from './llm-session/llm-message.controller';
         inject: [ServiceConfig.KEY],
       },
       {
-        name: 'LLM_SESSION_SERVICE',
+        name: 'RESEARCH_LLM_SERVICE',
         useFactory: (config: ConfigType<typeof ServiceConfig>) => ({
           transport: Transport.TCP,
           options: {
-            port: parseInt(config.llmSession.tcpPort),
+            port: parseInt(config.researchLlm.tcpPort),
           },
         }),
         inject: [ServiceConfig.KEY],

@@ -6,7 +6,7 @@ import {
   LlmSessionService,
   LlmSessionRepository,
   ILlmSessionRepository,
-} from '@libs/llm-session';
+} from '@libs/research-llm';
 
 @Module({
   imports: [DatabaseModule],

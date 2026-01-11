@@ -11,10 +11,10 @@ export default registerAs('services', () => ({
     port: process.env.AUTH_SERVICE_PORT || '3002',
     tcpPort: process.env.AUTH_SERVICE_TCP_PORT || '3012',
   },
-  llmSession: {
-    url: process.env.LLM_SESSION_SERVICE_URL || 'http://localhost:3003',
-    port: process.env.LLM_SESSION_SERVICE_PORT || '3003',
-    tcpPort: process.env.LLM_SESSION_SERVICE_TCP_PORT || '3013',
+  researchLlm: {
+    url: process.env.RESEARCH_LLM_SERVICE_URL || 'http://localhost:3003',
+    port: process.env.RESEARCH_LLM_SERVICE_PORT || '3003',
+    tcpPort: process.env.RESEARCH_LLM_SERVICE_TCP_PORT || '3013',
   },
   gateway: {
     port: process.env.GATEWAY_PORT || '3000',

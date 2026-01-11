@@ -52,7 +52,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        port: parseInt(serviceConfig.llmSession.tcpPort),
+        port: parseInt(serviceConfig.researchLlm.tcpPort),
       },
     },
     { inheritAppConfig: true },
@@ -60,7 +60,7 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
   logger.info(
-    `🚀 LLM SESSION SERVICE is running on TCP: ${serviceConfig.llmSession.tcpPort}`,
+    `🚀 RESEARCH LLM SERVICE is running on TCP: ${serviceConfig.researchLlm.tcpPort}`,
   );
 }
 
