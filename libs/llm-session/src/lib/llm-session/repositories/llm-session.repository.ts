@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ILlmSessionRepository } from './interfaces/llm-session-repository.interface';
+import { ILlmSessionRepository } from '../interfaces/llm-session-repository.interface';
 import { PrismaService } from '@libs/database';
-import { LlmSession } from '@libs/llm-session';
+import { LlmSession } from '../domains/llm-session.domain';
 
 @Injectable()
 export class LlmSessionRepository implements ILlmSessionRepository {

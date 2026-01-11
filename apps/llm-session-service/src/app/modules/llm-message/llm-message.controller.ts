@@ -1,11 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { ApiEndpoint, ApiVersion } from '@libs/shared';
 import { ApiTags } from '@nestjs/swagger';
-import { ILlmMessageService } from './interfaces/llm-message-service.interface';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import {
   CreateLlmMessagePayload,
   GetLlmMessagesPayload,
+  ILlmMessageService,
 } from '@libs/llm-session';
 
 @ApiTags(ApiEndpoint.LLM_MESSAGES)

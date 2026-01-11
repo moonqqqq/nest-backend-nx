@@ -28,7 +28,7 @@ export class LlmMessage extends BaseDomain {
     id: string;
     llmSessionId: string;
     type: TLlmMessageType;
-    content: string;
+    content: string | null;
     createdAt?: Date;
     updatedAt?: Date;
   }): LlmMessage {
@@ -36,7 +36,7 @@ export class LlmMessage extends BaseDomain {
       id: data.id,
       llmSessionId: data.llmSessionId,
       type: data.type,
-      content: data.content,
+      content: data.content ?? '',
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
     });

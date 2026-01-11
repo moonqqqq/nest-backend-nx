@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ILlmSessionService } from './interfaces/llm-session-service.interface';
-import { LlmSession } from '@libs/llm-session';
-import { ILlmSessionRepository } from './interfaces/llm-session-repository.interface';
+import { ILlmSessionService } from '../interfaces/llm-session-service.interface';
+import { LlmSession } from '../domains/llm-session.domain';
+import { ILlmSessionRepository } from '../interfaces/llm-session-repository.interface';
 import { NotOwner, WrongId } from '@libs/shared';
 
 @Injectable()

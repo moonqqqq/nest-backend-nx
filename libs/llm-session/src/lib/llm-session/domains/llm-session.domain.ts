@@ -26,7 +26,7 @@ export class LlmSession extends BaseDomain {
   static fromEntity(data: {
     id: string;
     userId: string;
-    title: string;
+    title: string | null;
     isDraft: boolean;
     createdAt?: Date;
     updatedAt?: Date;
@@ -34,7 +34,7 @@ export class LlmSession extends BaseDomain {
     return new LlmSession({
       id: data.id,
       userId: data.userId,
-      title: data.title,
+      title: data.title ?? '',
       isDraft: data.isDraft,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,

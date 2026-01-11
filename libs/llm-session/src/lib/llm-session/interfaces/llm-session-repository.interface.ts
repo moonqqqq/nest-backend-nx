@@ -1,4 +1,4 @@
-import { LlmSession } from '@libs/llm-session';
+import { LlmSession } from '../domains/llm-session.domain';
 
 export abstract class ILlmSessionRepository {
   abstract create(llmSession: LlmSession): Promise<LlmSession>;

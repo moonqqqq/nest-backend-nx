@@ -1,4 +1,4 @@
-import { LlmMessage } from '@libs/llm-session';
+import { LlmMessage } from '../domains/llm-message.domain';
 
 export abstract class ILlmMessageRepository {
   abstract create(llmMessage: LlmMessage): Promise<LlmMessage>;

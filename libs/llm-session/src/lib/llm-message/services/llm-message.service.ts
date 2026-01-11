@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ILlmMessageService } from './interfaces/llm-message-service.interface';
-import { ILlmMessageRepository } from './interfaces/llm-message-repository.interface';
-import { LlmMessage } from '@libs/llm-session';
-import { LlmMessageType } from '@libs/llm-session';
-import { ILlmSessionService } from '../llm-session/interfaces/llm-session-service.interface';
+import { ILlmMessageService } from '../interfaces/llm-message-service.interface';
+import { ILlmMessageRepository } from '../interfaces/llm-message-repository.interface';
+import { LlmMessage } from '../domains/llm-message.domain';
+import { LlmMessageType } from '../types/llm-message-type.type';
+import { ILlmSessionService } from '../../llm-session/interfaces/llm-session-service.interface';
 
 @Injectable()
 export class LlmMessageService implements ILlmMessageService {

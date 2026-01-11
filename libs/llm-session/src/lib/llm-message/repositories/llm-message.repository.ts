@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ILlmMessageRepository } from './interfaces/llm-message-repository.interface';
-import { LlmMessage } from '@libs/llm-session';
+import { ILlmMessageRepository } from '../interfaces/llm-message-repository.interface';
+import { LlmMessage } from '../domains/llm-message.domain';
 import { PrismaService } from '@libs/database';
 
 @Injectable()

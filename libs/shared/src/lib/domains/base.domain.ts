@@ -8,7 +8,7 @@ export abstract class BaseDomain {
     this.id = id;
   }
 
-  getId(): string | undefined {
-    return this.id;
+  getId(): string {
+    return this.id!;
   }
 }
