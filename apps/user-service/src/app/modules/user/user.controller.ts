@@ -2,8 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ApiEndpoint, ApiVersion } from '@libs/shared';
 import { ApiTags } from '@nestjs/swagger';
-import { IUserService } from './interfaces/user-service.interface';
-import { CreateUserPayload, SigninPayload } from '@libs/user';
+import { CreateUserPayload, IUserService, SigninPayload } from '@libs/user';
 
 @ApiTags(ApiEndpoint.USERS)
 @Controller(`${ApiVersion.ONE}/${ApiEndpoint.USERS}`)

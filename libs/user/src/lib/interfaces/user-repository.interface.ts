@@ -1,4 +1,5 @@
-import { CreateUserPayload, UserProfile } from '@libs/user';
+import { CreateUserPayload } from '../payloads/create-user.payload';
+import { UserProfile } from '../domains/user-profile.domain';
 
 export abstract class IUserRepository {
   abstract checkEmailIsDuplicate(email: string): Promise<boolean>;

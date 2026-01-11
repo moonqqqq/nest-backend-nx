@@ -1,5 +1,6 @@
 import { JWTTokensDTO } from '@libs/shared';
-import { CreateUserPayload, SigninPayload } from '@libs/user';
+import { CreateUserPayload } from '../payloads/create-user.payload';
+import { SigninPayload } from '../payloads/login.payload';
 
 export abstract class IUserService {
   abstract createUser(createUserPayload: CreateUserPayload): Promise<void>;

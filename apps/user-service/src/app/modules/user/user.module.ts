@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { IUserRepository } from './interfaces/user-repository.interface';
-import { UserRepository } from './user.repository';
-import { IUserService } from './interfaces/user-service.interface';
+import {
+  IUserRepository,
+  IUserService,
+  UserRepository,
+  UserService,
+} from '@libs/user';
 import { DatabaseModule } from '@libs/database';
 import { JWTModule } from '@libs/shared';
 

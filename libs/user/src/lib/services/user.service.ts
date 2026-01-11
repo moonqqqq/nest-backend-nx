@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { IUserService } from './interfaces/user-service.interface';
-import { IUserRepository } from './interfaces/user-repository.interface';
-import { CreateUserPayload, SigninPayload } from '@libs/user';
+import { IUserService } from '../interfaces/user-service.interface';
+import { IUserRepository } from '../interfaces/user-repository.interface';
+import { CreateUserPayload } from '../payloads/create-user.payload';
+import { SigninPayload } from '../payloads/login.payload';
 import {
   InvalidPassword,
   JWTTokensDTO,
@@ -33,7 +34,7 @@ export class UserService implements IUserService {
 
   async login(loginPayload: SigninPayload): Promise<JWTTokensDTO> {
     const user = await this.userRepository.findByEmail(loginPayload.email);
-    if (!user) {
+    if (!user || !user.id) {
       const exception = new UserNotFoundException();
       throw exception;
     }
