@@ -1,0 +1,9 @@
+{
+  "name": "event-stream",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/event-stream/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project event-stream --web",
+  "targets": {}
+}
