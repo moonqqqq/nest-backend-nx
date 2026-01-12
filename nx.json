@@ -40,7 +40,8 @@
       },
       "exclude": [
         "apps/user-service-e2e/**/*",
-        "apps/llm-session-service-e2e/**/*"
+        "apps/llm-session-service-e2e/**/*",
+        "apps/research-llm-worker-e2e/**/*"
       ]
     }
   ]
