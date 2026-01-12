@@ -41,4 +41,8 @@ export class LlmMessage extends BaseDomain {
       updatedAt: data.updatedAt,
     });
   }
+
+  getMessage(): string {
+    return this.content;
+  }
 }

@@ -3,9 +3,9 @@ import {
   EventStreamConsumerService,
   IEventStreamConsumer,
   KafkaGroup,
+  Topic,
 } from '@libs/event-stream';
 import { ILoggerService } from '@libs/logger';
-import { AppEventType } from '@libs/shared';
 
 @Injectable()
 export class ResearchLlmWorkerService
@@ -18,9 +18,9 @@ export class ResearchLlmWorkerService
 
   async onModuleInit(): Promise<void> {
     await this.eventStreamConsumerService.createConsumer({
-      topic: AppEventType.LLM_MESSAGE_CREATED,
+      topic: Topic.USER_LLM_MESSAGE_CREATED,
       config: {
-        groupId: KafkaGroup.RESEARCH_LLM_WORKER,
+        groupId: KafkaGroup.RESEARCH_LLM,
       },
       onMessage: async ({ message }) => {
         await this.process(message);
@@ -29,6 +29,6 @@ export class ResearchLlmWorkerService
   }
 
   async process(message: any): Promise<void> {
-    this.logger.info(`Received message: ${message.value?.toString()}`);
+    this.logger.info(`Received event: ${message.value?.toString()}`);
   }
 }

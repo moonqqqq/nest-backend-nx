@@ -9,6 +9,7 @@ import { ILoggerService } from '@libs/logger';
 import { EventStreamConfig } from '@libs/config';
 import { ConfigType } from '@nestjs/config';
 import { AppEvent } from '@libs/shared';
+import { TTopic } from './constants/topic.constant';
 
 @Injectable()
 export class EventStreamProducerService
@@ -50,10 +51,9 @@ export class EventStreamProducerService
     });
   }
 
-  async send(record: AppEvent): Promise<RecordMetadata[]> {
-    const topic = record.type;
-    const value = JSON.stringify(record.data);
-    this.logger.info(`Sending message to topic ${topic}: ${value}`);
+  async send(topic: TTopic, event: AppEvent): Promise<RecordMetadata[]> {
+    const value = JSON.stringify(event.data);
+    this.logger.info(`Sending event to topic ${topic}: ${value}`);
     try {
       return await this.producer.send({
         topic,
@@ -61,7 +61,7 @@ export class EventStreamProducerService
       });
     } catch (error) {
       this.logger.error(
-        `Failed to send message to topic ${topic}: ${(error as Error).message}`,
+        `Failed to send event to topic ${topic}: ${(error as Error).message}`,
       );
       throw error;
     }

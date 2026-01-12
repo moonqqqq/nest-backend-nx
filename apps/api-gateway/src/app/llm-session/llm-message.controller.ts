@@ -37,14 +37,21 @@ export class LlmMessageController {
   ) {
     const userId = currentUser.id;
 
-    const createdLlmMessage = await firstValueFrom(
-      this.researchLlmService.send<LlmMessage>('create_llm_message', {
-        userId,
-        llmSessionId,
-        content,
-      }),
-    );
-    return new ResDTO(createdLlmMessage);
+    const { createdLlmQuestionMessage, createdLlmAnswerMessage } =
+      await firstValueFrom(
+        this.researchLlmService.send<{
+          createdLlmQuestionMessage: LlmMessage;
+          createdLlmAnswerMessage: LlmMessage;
+        }>('create_llm_message', {
+          userId,
+          llmSessionId,
+          content,
+        }),
+      );
+
+    return new ResDTO({
+      messages: [createdLlmQuestionMessage, createdLlmAnswerMessage],
+    });
   }
 
   @Get()

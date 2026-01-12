@@ -5,7 +5,10 @@ export abstract class ILlmMessageService {
     userId: string,
     llmSessionId: string,
     content: string,
-  ): Promise<LlmMessage>;
+  ): Promise<{
+    createdLlmQuestionMessage: LlmMessage;
+    createdLlmAnswerMessage: LlmMessage;
+  }>;
   abstract getLlmMessages(
     userId: string,
     llmSessionId: string,

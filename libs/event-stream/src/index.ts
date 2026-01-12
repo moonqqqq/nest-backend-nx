@@ -3,3 +3,4 @@ export * from './lib/event-stream-consumer.service';
 export * from './lib/event-stream-producer.service';
 export * from './lib/interfaces/event-stream-consumer.interface';
 export * from './lib/constants/kafka-group.constant';
+export * from './lib/constants/topic.constant';

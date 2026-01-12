@@ -1,6 +1,6 @@
 export const AppEventType = {
   LLM_MESSAGE_CREATED: 'llm_message_created',
-  LLM_ANSWER_MESSAGE_RECEIVED: 'llm_answer_message_received',
+  LLM_ANSWER_MESSAGE_COMPLETED: 'llm_answer_message_completed',
 
   // stream event
   STREAM_STARTED: 'stream_started',

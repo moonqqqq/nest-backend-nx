@@ -6,6 +6,7 @@ import { LlmMessageType } from '../types/llm-message-type.type';
 import { ILlmSessionService } from '../../llm-session/interfaces/llm-session-service.interface';
 import { EventStreamProducerService } from '@libs/event-stream';
 import { AppEvent, AppEventType } from '@libs/shared';
+import { Topic } from '@libs/event-stream';
 
 @Injectable()
 export class LlmMessageService implements ILlmMessageService {
@@ -19,33 +20,50 @@ export class LlmMessageService implements ILlmMessageService {
     userId: string,
     llmSessionId: string,
     content: string,
-  ): Promise<LlmMessage> {
+  ): Promise<{
+    createdLlmQuestionMessage: LlmMessage;
+    createdLlmAnswerMessage: LlmMessage;
+  }> {
     const llmSession = await this.llmSessionService.checkAuth(
       userId,
       llmSessionId,
     );
 
-    const llmMessage = new LlmMessage({
+    const llmQuestionMessage = new LlmMessage({
       llmSessionId: llmSession.getId(),
       type: LlmMessageType.USER,
       content,
+    });
+
+    const llmAnswerMessage = new LlmMessage({
+      llmSessionId: llmSession.getId(),
+      type: LlmMessageType.AI,
+      content: '',
     });
 
     if (llmSession.isDraftSession()) {
       await this.llmSessionService.publish(llmSession);
     }
 
-    const createdLlmMessage =
-      await this.llmMessageRepository.create(llmMessage);
+    const createdLlmQuestionMessage =
+      await this.llmMessageRepository.create(llmQuestionMessage);
+    const createdLlmAnswerMessage =
+      await this.llmMessageRepository.create(llmAnswerMessage);
 
     const llmMessageCreatedEvent = new AppEvent({
       type: AppEventType.LLM_MESSAGE_CREATED,
-      data: createdLlmMessage,
+      data: {
+        question: createdLlmQuestionMessage.getMessage(),
+        answerMessageId: createdLlmAnswerMessage.getId(),
+      },
     });
 
-    await this.eventStreamProducerService.send(llmMessageCreatedEvent);
+    await this.eventStreamProducerService.send(
+      Topic.USER_LLM_MESSAGE_CREATED,
+      llmMessageCreatedEvent,
+    );
 
-    return createdLlmMessage;
+    return { createdLlmQuestionMessage, createdLlmAnswerMessage };
   }
 
   async getLlmMessages(
