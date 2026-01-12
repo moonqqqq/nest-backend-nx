@@ -31,8 +31,25 @@ export class EventStreamConsumerService implements OnModuleDestroy {
     const consumer = this.kafka.consumer(options.config);
     this.consumers.push(consumer); // 관리 목록에 추가
 
+    // 토픽이 존재하지 않으면 자동 생성
+    const admin = this.kafka.admin();
+    await admin.connect();
+    const topics = await admin.listTopics();
+    if (!topics.includes(options.topic)) {
+      await admin.createTopics({
+        topics: [
+          { topic: options.topic, numPartitions: 1, replicationFactor: 1 },
+        ],
+      });
+      this.logger.info(`📦 Topic "${options.topic}" created automatically.`);
+    }
+    await admin.disconnect();
+
     await consumer.connect();
-    await consumer.subscribe({ topic: options.topic, fromBeginning: false });
+    await consumer.subscribe({
+      topic: options.topic,
+      fromBeginning: false,
+    });
 
     // 사용자가 Batch 핸들러를 넣었는지, Message 핸들러를 넣었는지에 따라 분기
     if (options.onBatch) {
