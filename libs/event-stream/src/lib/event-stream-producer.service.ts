@@ -52,7 +52,7 @@ export class EventStreamProducerService
   }
 
   async send(topic: TTopic, event: AppEvent): Promise<RecordMetadata[]> {
-    const value = JSON.stringify(event.data);
+    const value = JSON.stringify(event);
     this.logger.info(`Sending event to topic ${topic}: ${value}`);
     try {
       return await this.producer.send({

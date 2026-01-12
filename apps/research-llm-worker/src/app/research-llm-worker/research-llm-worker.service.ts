@@ -6,6 +6,7 @@ import {
   Topic,
 } from '@libs/event-stream';
 import { ILoggerService } from '@libs/logger';
+import { AppEvent, TAppEventType } from '@libs/shared';
 
 @Injectable()
 export class ResearchLlmWorkerService
@@ -29,6 +30,15 @@ export class ResearchLlmWorkerService
   }
 
   async process(message: any): Promise<void> {
-    this.logger.info(`Received event: ${message.value?.toString()}`);
+    this.logger.info(`Received event: ${message.value.toString()}`);
+    const event = JSON.parse(message.value.toString());
+
+    // const appEvent = new AppEvent({
+    new AppEvent({
+      type: event.type as TAppEventType,
+      data: event.data,
+      id: event.id,
+      retry: event.retry,
+    });
   }
 }
