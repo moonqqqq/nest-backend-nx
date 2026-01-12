@@ -4,16 +4,11 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import {
-  Kafka,
-  Producer,
-  RecordMetadata,
-  ProducerRecord,
-  Partitioners,
-} from 'kafkajs';
+import { Kafka, Producer, RecordMetadata, Partitioners } from 'kafkajs';
 import { ILoggerService } from '@libs/logger';
 import { EventStreamConfig } from '@libs/config';
 import { ConfigType } from '@nestjs/config';
+import { AppEvent } from '@libs/shared';
 
 @Injectable()
 export class EventStreamProducerService
@@ -55,43 +50,21 @@ export class EventStreamProducerService
     });
   }
 
-  /**
-   * 기본 전송 메서드 (kafkajs raw 기능)
-   * 여러 메시지를 한 번에 보낼 때 사용 (Batch)
-   */
-  async send(record: ProducerRecord): Promise<RecordMetadata[]> {
+  async send(record: AppEvent): Promise<RecordMetadata[]> {
+    const topic = record.type;
+    const value = JSON.stringify(record.data);
+    this.logger.info(`Sending message to topic ${topic}: ${value}`);
     try {
       return await this.producer.send({
-        ...record,
-        acks: this.eventStreamConfig.producer.acks,
-        timeout: this.eventStreamConfig.producer.timeout,
+        topic,
+        messages: [{ value }],
       });
     } catch (error) {
       this.logger.error(
-        `Failed to send message to topic ${record.topic}: ${(error as Error).message}`,
+        `Failed to send message to topic ${topic}: ${(error as Error).message}`,
       );
       throw error;
     }
-  }
-
-  /**
-   * [편의 기능] 단건 JSON 전송 헬퍼
-   * 객체를 넣으면 자동으로 JSON.stringify 처리 및 Key 설정
-   */
-  async sendJson<T = any>(
-    topic: string,
-    data: T,
-    key?: string,
-  ): Promise<RecordMetadata[]> {
-    return this.send({
-      topic,
-      messages: [
-        {
-          key, // 파티션 순서 보장이 필요하면 key 필수
-          value: JSON.stringify(data),
-        },
-      ],
-    });
   }
 
   async onModuleInit() {

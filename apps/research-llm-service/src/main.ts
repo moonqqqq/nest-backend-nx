@@ -58,6 +58,7 @@ async function bootstrap() {
     { inheritAppConfig: true },
   );
 
+  await app.init();
   await app.startAllMicroservices();
   logger.info(
     `🚀 RESEARCH LLM SERVICE is running on TCP: ${serviceConfig.researchLlm.tcpPort}`,

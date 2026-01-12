@@ -139,7 +139,7 @@ To run the dev server for your app, use:
 npx nx serve <app name> --output-style=stream
 
 // 여러개 한번에 실행시키기
-npx nx run-many --target=serve --all
+npx nx run-many --target=serve --all --output-style=stream
 
 npx nx run-many --target=serve --projects=app1,app2 --output-style=stream
 ```

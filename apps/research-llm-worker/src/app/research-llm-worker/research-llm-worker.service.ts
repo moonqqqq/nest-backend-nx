@@ -1,13 +1,15 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
-  EventStreamConsumerProcessor,
   EventStreamConsumerService,
+  IEventStreamConsumer,
+  KafkaGroup,
 } from '@libs/event-stream';
 import { ILoggerService } from '@libs/logger';
+import { AppEventType } from '@libs/shared';
 
 @Injectable()
 export class ResearchLlmWorkerService
-  implements EventStreamConsumerProcessor, OnModuleInit
+  implements IEventStreamConsumer, OnModuleInit
 {
   constructor(
     private readonly logger: ILoggerService,
@@ -16,9 +18,9 @@ export class ResearchLlmWorkerService
 
   async onModuleInit(): Promise<void> {
     await this.eventStreamConsumerService.createConsumer({
-      topic: 'research-llm',
+      topic: AppEventType.LLM_MESSAGE_CREATED,
       config: {
-        groupId: 'research-llm-worker',
+        groupId: KafkaGroup.RESEARCH_LLM_WORKER,
       },
       onMessage: async ({ message }) => {
         await this.process(message);

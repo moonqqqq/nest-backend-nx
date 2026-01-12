@@ -4,12 +4,15 @@ import { ILlmMessageRepository } from '../interfaces/llm-message-repository.inte
 import { LlmMessage } from '../domains/llm-message.domain';
 import { LlmMessageType } from '../types/llm-message-type.type';
 import { ILlmSessionService } from '../../llm-session/interfaces/llm-session-service.interface';
+import { EventStreamProducerService } from '@libs/event-stream';
+import { AppEvent, AppEventType } from '@libs/shared';
 
 @Injectable()
 export class LlmMessageService implements ILlmMessageService {
   constructor(
     private readonly llmMessageRepository: ILlmMessageRepository,
     private readonly llmSessionService: ILlmSessionService,
+    private readonly eventStreamProducerService: EventStreamProducerService,
   ) {}
 
   async create(
@@ -32,7 +35,17 @@ export class LlmMessageService implements ILlmMessageService {
       await this.llmSessionService.publish(llmSession);
     }
 
-    return await this.llmMessageRepository.create(llmMessage);
+    const createdLlmMessage =
+      await this.llmMessageRepository.create(llmMessage);
+
+    const llmMessageCreatedEvent = new AppEvent({
+      type: AppEventType.LLM_MESSAGE_CREATED,
+      data: createdLlmMessage,
+    });
+
+    await this.eventStreamProducerService.send(llmMessageCreatedEvent);
+
+    return createdLlmMessage;
   }
 
   async getLlmMessages(

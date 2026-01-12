@@ -8,9 +8,10 @@ import {
   LlmMessageRepository,
   ILlmMessageRepository,
 } from '@libs/research-llm';
+import { EventStreamModule } from '@libs/event-stream';
 
 @Module({
-  imports: [DatabaseModule, LlmSessionModule],
+  imports: [DatabaseModule, LlmSessionModule, EventStreamModule],
   controllers: [LlmMessageController],
   providers: [
     {
