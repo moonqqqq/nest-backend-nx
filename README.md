@@ -38,10 +38,10 @@ LLM 호출/응답 스트리밍 관리 마이크로서비스 백엔드 구현
 3. LLM 응답 구현
   - [x] 3.1 Mock LLM  응답 스트리밍 서버 구현
 4. 이벤트 스트리밍 시스템 구축 (Kafka)
-  - [ ] 4.1. 여러 마이크로서비스들에서 이용할 eventStreamingModule 만들기
-    - [ ] 4.1.1. 토픽정리
-    - [ ] 4.1.2. produce 기능
-    - [ ] 4.2.3. consume 기능
+  - [x] 4.1. 여러 마이크로서비스들에서 이용할 eventStreamingModule 만들기
+    - [x] 4.1.1. 토픽정리
+    - [x] 4.1.2. produce 기능
+    - [x] 4.2.3. consume 기능
 5. LLM Streaming 백그라운드 파이파라인 구축(API서버와 완전한 분리) (Redis)
   - [ ] 5.1. Redis 키 생성 구조 구현(cluster에서 유효한 키 방식)
   - [ ] 5.2. LLM서버로부터 Stream으로 받고 있는 데이터들을 임시 저장하는 저장소 구현
