@@ -52,7 +52,8 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "mock-external-api:build",
-        "runBuildTargetDependencies": false
+        "runBuildTargetDependencies": false,
+        "inspect": false
       },
       "configurations": {
         "development": {
