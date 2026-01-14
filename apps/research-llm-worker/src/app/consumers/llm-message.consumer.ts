@@ -10,9 +10,7 @@ import { AppEvent, TAppEventType } from '@libs/shared';
 import { TaskQueueService, TaskQueueConstants } from '@libs/task-queue';
 
 @Injectable()
-export class ResearchLlmWorkerService
-  implements IEventStreamConsumer, OnModuleInit
-{
+export class LlmMessageConsumer implements IEventStreamConsumer, OnModuleInit {
   constructor(
     private readonly logger: ILoggerService,
     private readonly eventStreamConsumerService: EventStreamConsumerService,

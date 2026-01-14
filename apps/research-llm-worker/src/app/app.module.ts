@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ResearchLlmWorkerModule } from './research-llm-worker/research-llm-worker.module';
+import { ConsumersModule } from './consumers/consumers.module';
 import { ConfigModule } from '@nestjs/config';
 import { AppConfig, EventStreamConfig, ServiceConfig } from '@libs/config';
 
@@ -10,7 +10,7 @@ import { AppConfig, EventStreamConfig, ServiceConfig } from '@libs/config';
       isGlobal: true,
       load: [AppConfig, ServiceConfig, EventStreamConfig],
     }),
-    ResearchLlmWorkerModule,
+    ConsumersModule,
   ],
   providers: [AppService],
 })
