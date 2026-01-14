@@ -28,6 +28,9 @@ export class UserLlmMessageCreatedConsumer
       onMessage: async ({ message }) => {
         await this.process(message);
       },
+      runConfig: {
+        autoCommit: false,
+      },
     });
   }
 

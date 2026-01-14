@@ -24,8 +24,8 @@ export interface CustomConsumerOptions {
   onMessage?: MessageHandler; // 단건 처리용 핸들러
 
   // Consumer Run Config (autoCommit, partitionsConsumedConcurrently 등)
-  runConfig?: {
-    autoCommit?: boolean;
+  runConfig: {
+    autoCommit: boolean;
     eachBatchAutoResolve?: boolean;
     partitionsConsumedConcurrently?: number;
   };
