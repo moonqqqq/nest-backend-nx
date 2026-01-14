@@ -4,13 +4,13 @@ import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TaskQueueConstants } from './constants/task-queue.constant';
 import { LoggerModule } from '@libs/logger';
-import { JobQueueConfig } from '@libs/config';
+import { TaskQueueConfig } from '@libs/config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [JobQueueConfig],
+      load: [TaskQueueConfig],
     }),
     LoggerModule,
     BullModule.forRootAsync({
@@ -18,8 +18,8 @@ import { JobQueueConfig } from '@libs/config';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         connection: {
-          host: configService.get('jobQueue.redisHost'),
-          port: configService.get('jobQueue.redisPort'),
+          host: configService.get('taskQueue.redisHost'),
+          port: configService.get('taskQueue.redisPort'),
         },
       }),
     }),
