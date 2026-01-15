@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
-  EventStreamConsumerService,
+  EventStreamConsumerFactoryService,
   IEventStreamConsumer,
   KafkaGroup,
   Topic,
@@ -15,12 +15,12 @@ export class UserLlmMessageCreatedConsumer
 {
   constructor(
     private readonly logger: ILoggerService,
-    private readonly eventStreamConsumerService: EventStreamConsumerService,
+    private readonly eventStreamConsumerFactoryService: EventStreamConsumerFactoryService,
     private readonly taskQueueService: TaskQueueService,
   ) {}
 
   async onModuleInit(): Promise<void> {
-    await this.eventStreamConsumerService.createConsumer({
+    await this.eventStreamConsumerFactoryService.createConsumer({
       topic: Topic.USER_LLM_MESSAGE_CREATED,
       config: {
         groupId: KafkaGroup.RESEARCH_LLM,

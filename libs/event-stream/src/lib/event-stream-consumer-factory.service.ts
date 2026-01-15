@@ -7,7 +7,7 @@ import { ILoggerService } from '@libs/logger';
 import { EventStreamConfig } from '@libs/config';
 
 @Injectable()
-export class EventStreamConsumerService implements OnModuleDestroy {
+export class EventStreamConsumerFactoryService implements OnModuleDestroy {
   private kafka: Kafka;
   private consumers: Consumer[] = [];
 
