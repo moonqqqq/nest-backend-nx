@@ -2,7 +2,7 @@ import { LoggerModule } from '@libs/logger';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { EventStreamConsumerFactoryService } from './event-stream-consumer-factory.service';
-import { EventStreamProducerService } from './event-stream-producer.service';
+import { EventStreamProducerFactoryService } from './event-stream-producer-factory.service';
 import { AppConfig, EventStreamConfig, ServiceConfig } from '@libs/config';
 
 @Module({
@@ -14,7 +14,13 @@ import { AppConfig, EventStreamConfig, ServiceConfig } from '@libs/config';
     LoggerModule,
   ],
   controllers: [],
-  providers: [EventStreamConsumerFactoryService, EventStreamProducerService],
-  exports: [EventStreamConsumerFactoryService, EventStreamProducerService],
+  providers: [
+    EventStreamConsumerFactoryService,
+    EventStreamProducerFactoryService,
+  ],
+  exports: [
+    EventStreamConsumerFactoryService,
+    EventStreamProducerFactoryService,
+  ],
 })
 export class EventStreamModule {}

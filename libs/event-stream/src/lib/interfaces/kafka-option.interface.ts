@@ -4,11 +4,33 @@ import {
   EachMessagePayload,
   KafkaConfig,
   ProducerConfig,
+  RecordMetadata,
 } from 'kafkajs';
+import { TTopic } from '../constants/topic.constant';
+import { AppEvent } from '@libs/shared';
 
 export interface KafkaModuleOption extends KafkaConfig {
   producer?: ProducerConfig;
   // 브로커 설정 (brokers, clientId 등)
+}
+
+// Producer 팩토리 옵션
+export interface CustomProducerOptions {
+  name: string; // Producer 식별자
+  config?: {
+    allowAutoTopicCreation?: boolean;
+    idempotent?: boolean;
+    transactionTimeout?: number;
+    retries?: number;
+    createPartitioner?: 'legacy' | 'default';
+  };
+}
+
+// Producer 인스턴스 래퍼
+export interface ProducerInstance {
+  name: string;
+  send(topic: TTopic, event: AppEvent): Promise<RecordMetadata[]>;
+  disconnect(): Promise<void>;
 }
 
 // 사용자가 정의할 핸들러 타입

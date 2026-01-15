@@ -1,20 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ILlmMessageService } from '../interfaces/llm-message-service.interface';
 import { ILlmMessageRepository } from '../interfaces/llm-message-repository.interface';
 import { LlmMessage } from '../domains/llm-message.domain';
 import { LlmMessageType } from '../types/llm-message-type.type';
 import { ILlmSessionService } from '../../llm-session/interfaces/llm-session-service.interface';
-import { EventStreamProducerService } from '@libs/event-stream';
+import {
+  EventStreamProducerFactoryService,
+  ProducerInstance,
+} from '@libs/event-stream';
 import { AppEvent, AppEventType } from '@libs/shared';
 import { Topic } from '@libs/event-stream';
 
 @Injectable()
-export class LlmMessageService implements ILlmMessageService {
+export class LlmMessageService implements ILlmMessageService, OnModuleInit {
+  private producer!: ProducerInstance;
+
   constructor(
     private readonly llmMessageRepository: ILlmMessageRepository,
     private readonly llmSessionService: ILlmSessionService,
-    private readonly eventStreamProducerService: EventStreamProducerService,
+    private readonly eventStreamProducerFactory: EventStreamProducerFactoryService,
   ) {}
+
+  async onModuleInit() {
+    this.producer = await this.eventStreamProducerFactory.createProducer({
+      name: 'llm-message-producer',
+      config: {
+        idempotent: true,
+        allowAutoTopicCreation: false,
+      },
+    });
+  }
 
   async create(
     userId: string,
@@ -58,7 +73,7 @@ export class LlmMessageService implements ILlmMessageService {
       },
     });
 
-    await this.eventStreamProducerService.send(
+    await this.producer.send(
       Topic.USER_LLM_MESSAGE_CREATED,
       llmMessageCreatedEvent,
     );
