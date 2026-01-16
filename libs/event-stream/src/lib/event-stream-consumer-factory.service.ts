@@ -48,7 +48,7 @@ export class EventStreamConsumerFactoryService implements OnModuleDestroy {
     await consumer.connect();
     await consumer.subscribe({
       topic: options.topic,
-      fromBeginning: false,
+      fromBeginning: true,
     });
 
     // 사용자가 Batch 핸들러를 넣었는지, Message 핸들러를 넣었는지에 따라 분기
