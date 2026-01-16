@@ -1,4 +1,3 @@
-// event-stream.service.ts
 import { Inject, Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { Kafka, Consumer } from 'kafkajs';
@@ -11,39 +10,23 @@ export class EventStreamConsumerFactoryService implements OnModuleDestroy {
   private kafka: Kafka;
   private consumers: Consumer[] = [];
 
-  // ConfigService 주입
   constructor(
     private readonly logger: ILoggerService,
     @Inject(EventStreamConfig.KEY)
     private eventStreamConfig: ConfigType<typeof EventStreamConfig>,
   ) {
-    // 환경변수에서 브로커 목록 가져오기 (없으면 로컬호스트 기본값)
     const brokers = this.eventStreamConfig.kafka.brokers;
-
     this.kafka = new Kafka({
       clientId: this.eventStreamConfig.kafka.clientId,
-      brokers: brokers.split(','), // "broker1,broker2" 형태 대응
+      brokers: brokers.split(','),
     });
   }
 
-  // 핵심: 팩토리 메서드
   async createConsumer(options: CustomConsumerOptions): Promise<void> {
-    const consumer = this.kafka.consumer(options.config);
-    this.consumers.push(consumer); // 관리 목록에 추가
+    await this.ensureTopicExists(options.topic);
 
-    // 토픽이 존재하지 않으면 자동 생성
-    const admin = this.kafka.admin();
-    await admin.connect();
-    const topics = await admin.listTopics();
-    if (!topics.includes(options.topic)) {
-      await admin.createTopics({
-        topics: [
-          { topic: options.topic, numPartitions: 1, replicationFactor: 1 },
-        ],
-      });
-      this.logger.info(`📦 Topic "${options.topic}" created automatically.`);
-    }
-    await admin.disconnect();
+    const consumer = this.kafka.consumer(options.config);
+    this.consumers.push(consumer);
 
     await consumer.connect();
     await consumer.subscribe({
@@ -51,28 +34,68 @@ export class EventStreamConsumerFactoryService implements OnModuleDestroy {
       fromBeginning: true,
     });
 
-    // 사용자가 Batch 핸들러를 넣었는지, Message 핸들러를 넣었는지에 따라 분기
+    await this.runConsumer(consumer, options);
+
+    this.logger.info(
+      `Kafka Consumer started for topic: ${options.topic} (Group: ${options.config.groupId})`,
+    );
+  }
+
+  private async ensureTopicExists(topic: string): Promise<void> {
+    const admin = this.kafka.admin();
+    await admin.connect();
+
+    const topics = await admin.listTopics();
+    if (!topics.includes(topic)) {
+      await admin.createTopics({
+        topics: [{ topic, numPartitions: 1, replicationFactor: 1 }],
+      });
+      this.logger.info(`Topic "${topic}" created automatically.`);
+    }
+
+    await admin.disconnect();
+  }
+
+  private async runConsumer(
+    consumer: Consumer,
+    options: CustomConsumerOptions,
+  ): Promise<void> {
     if (options.onBatch) {
       await consumer.run({
         ...options.runConfig,
         eachBatch: options.onBatch,
+        // eachBatchAutoResolve: true 이게 기본값 //  eachBatch는 에러가 안나면 알아서 커밋해줌(autoCommit이 false일 때).
       });
-    } else if (options.onMessage) {
-      await consumer.run({
-        ...options.runConfig,
-        eachMessage: options.onMessage,
-      });
-    } else {
-      throw new Error('Either onBatch or onMessage must be provided.');
+      return;
     }
 
-    this.logger.info(
-      `✅ Kafka Consumer started for topic: ${options.topic} (Group: ${options.config.groupId})`,
-    );
+    if (options.onMessage) {
+      const onMessageFunction = options.onMessage;
+
+      await consumer.run({
+        ...options.runConfig,
+        eachMessage: async (payload) => {
+          await onMessageFunction(payload);
+
+          // autoCommit이 false일 때만 수동 커밋 (성공 시에만 커밋됨)
+          if (!options.runConfig.autoCommit) {
+            await consumer.commitOffsets([
+              {
+                topic: payload.topic,
+                partition: payload.partition,
+                offset: (parseInt(payload.message.offset) + 1).toString(),
+              },
+            ]);
+          }
+        },
+      });
+      return;
+    }
+
+    throw new Error('Either onBatch or onMessage must be provided.');
   }
 
-  async onModuleDestroy() {
-    // 앱 종료 시 모든 컨슈머 연결 해제
+  async onModuleDestroy(): Promise<void> {
     await Promise.all(this.consumers.map((c) => c.disconnect()));
   }
 }
