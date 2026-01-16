@@ -5,7 +5,7 @@ import { LoggerModule } from '@libs/logger';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth/auth.controller';
 import { LlmSessionController } from './llm-session/llm-session.controller';
-import { JWTModule } from '@libs/shared';
+import { JWTModule, RedisModule } from '@libs/shared';
 import { LlmMessageController } from './llm-session/llm-message.controller';
 
 @Module({
@@ -16,6 +16,7 @@ import { LlmMessageController } from './llm-session/llm-message.controller';
     }),
     LoggerModule,
     JWTModule,
+    RedisModule,
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',

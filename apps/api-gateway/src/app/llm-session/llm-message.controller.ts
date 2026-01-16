@@ -12,6 +12,7 @@ import {
   ApiEndpoint,
   ApiVersion,
   IUserPayload,
+  PreventDuplicate,
   ReqUser,
   ResDTO,
 } from '@libs/shared';
@@ -31,6 +32,7 @@ export class LlmMessageController {
 
   @Post()
   @UseGuards(JWTAuthGuard)
+  @PreventDuplicate({ ttlSeconds: 3 })
   async createLlmMessage(
     @ReqUser() currentUser: IUserPayload,
     @Body() { llmSessionId, content }: CreateLlmMessageBodyDTO,

@@ -31,9 +31,14 @@ export * from './lib/jwt/jwt.service';
 
 // guards
 export * from './lib/guards/jwt-auth.guard';
+export * from './lib/guards/prevent-duplicate.guard';
+
+// redis
+export * from './lib/redis/redis.module';
 
 // decorators
 export * from './lib/decorators/user.decorator';
+export * from './lib/decorators/prevent-duplicate.decorator';
 
 // events
 export * from './lib/events/app.event';
