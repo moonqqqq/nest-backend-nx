@@ -3,7 +3,7 @@ import { ConfigType } from '@nestjs/config';
 import { Kafka, Consumer } from 'kafkajs';
 import { CustomConsumerOptions } from './interfaces/kafka-option.interface';
 import { ILoggerService } from '@libs/logger';
-import { EventStreamConfig } from '@libs/config';
+import { AppConfig, EventStreamConfig } from '@libs/config';
 
 @Injectable()
 export class EventStreamConsumerFactoryService implements OnModuleDestroy {
@@ -14,6 +14,8 @@ export class EventStreamConsumerFactoryService implements OnModuleDestroy {
     private readonly logger: ILoggerService,
     @Inject(EventStreamConfig.KEY)
     private eventStreamConfig: ConfigType<typeof EventStreamConfig>,
+    @Inject(AppConfig.KEY)
+    private appConfig: ConfigType<typeof AppConfig>,
   ) {
     const brokers = this.eventStreamConfig.kafka.brokers;
     this.kafka = new Kafka({
@@ -23,7 +25,9 @@ export class EventStreamConsumerFactoryService implements OnModuleDestroy {
   }
 
   async createConsumer(options: CustomConsumerOptions): Promise<void> {
-    await this.ensureTopicExists(options.topic);
+    if (this.appConfig.nodeEnv === 'dev') {
+      await this.ensureTopicExists(options.topic);
+    }
 
     const consumer = this.kafka.consumer(options.config);
     this.consumers.push(consumer);
