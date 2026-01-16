@@ -6,6 +6,7 @@ import { LlmMessageType } from '../types/llm-message-type.type';
 import { ILlmSessionService } from '../../llm-session/interfaces/llm-session-service.interface';
 import {
   EventStreamProducerFactoryService,
+  KafkaProducerConstant,
   ProducerInstance,
 } from '@libs/event-stream';
 import { AppEvent, AppEventType } from '@libs/shared';
@@ -23,10 +24,11 @@ export class LlmMessageService implements ILlmMessageService, OnModuleInit {
 
   async onModuleInit() {
     this.producer = await this.eventStreamProducerFactory.createProducer({
-      name: 'llm-message-producer',
+      name: KafkaProducerConstant.LLM_MESSAGE_PRODUCER,
       config: {
         idempotent: true,
         allowAutoTopicCreation: false,
+        acks: -1,
       },
     });
   }

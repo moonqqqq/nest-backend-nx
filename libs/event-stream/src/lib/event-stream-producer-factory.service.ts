@@ -48,6 +48,9 @@ export class EventStreamProducerFactoryService implements OnModuleDestroy {
       ? Number.MAX_SAFE_INTEGER
       : (config.retries ?? 5);
 
+    // acks 설정: 프로듀서별로 다르게 설정 가능 (기본값: 전역 설정 또는 -1)
+    const producerAcks = config.acks ?? -1;
+
     const producer = this.kafka.producer({
       createPartitioner,
       allowAutoTopicCreation: config.allowAutoTopicCreation ?? true,
@@ -76,6 +79,7 @@ export class EventStreamProducerFactoryService implements OnModuleDestroy {
           return await producer.send({
             topic,
             messages: [{ value }],
+            acks: producerAcks,
           });
         } catch (error) {
           this.logger.error(

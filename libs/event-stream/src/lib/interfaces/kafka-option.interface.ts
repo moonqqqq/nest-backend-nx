@@ -23,6 +23,7 @@ export interface CustomProducerOptions {
     transactionTimeout?: number;
     retries?: number;
     createPartitioner?: 'legacy' | 'default';
+    acks?: -1 | 0 | 1; // -1(all): 모든 ISR 응답, 0: 응답 안기다림, 1: 리더만
   };
 }
 

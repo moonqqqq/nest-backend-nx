@@ -6,3 +6,4 @@ export * from './lib/interfaces/kafka-option.interface';
 export * from './lib/constants/kafka-group.constant';
 export * from './lib/constants/topic.constant';
 export * from './lib/configs/topic-config.constant';
+export * from './lib/constants/kafka-producer.constant';

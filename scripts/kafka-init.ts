@@ -29,7 +29,7 @@ async function initializeTopics(): Promise<void> {
 
     const existingTopics = await admin.listTopics();
     const topicsToCreate = TopicConfigs.filter(
-      (config) => !existingTopics.includes(config.name),
+      (config) => !existingTopics.includes(config.topic),
     );
 
     if (topicsToCreate.length === 0) {
@@ -38,12 +38,12 @@ async function initializeTopics(): Promise<void> {
     }
 
     console.log(
-      `Creating topics: ${topicsToCreate.map((t) => t.name).join(', ')}`,
+      `Creating topics: ${topicsToCreate.map((t) => t.topic).join(', ')}`,
     );
 
     await admin.createTopics({
       topics: topicsToCreate.map((config) => ({
-        topic: config.name,
+        topic: config.topic,
         numPartitions: config.numPartitions,
         replicationFactor: config.replicationFactor,
       })),
