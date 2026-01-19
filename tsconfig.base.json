@@ -23,7 +23,8 @@
       "@libs/database": ["libs/database/src/index.ts"],
       "@libs/research-llm": ["libs/research-llm/src/index.ts"],
       "@libs/event-stream": ["libs/event-stream/src/index.ts"],
-      "@libs/task-queue": ["libs/task-queue/src/index.ts"]
+      "@libs/task-queue": ["libs/task-queue/src/index.ts"],
+      "@libs/redis": ["libs/redis/src/index.ts"]
     },
     "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true

@@ -9,4 +9,5 @@ export const ApiEndpoint = {
   USERS: 'users',
   LLM_SESSIONS: 'llm-sessions',
   LLM_MESSAGES: 'llm-messages',
+  LLM_STREAMS: 'llm-streams',
 } as const;

@@ -5,8 +5,10 @@ import { LoggerModule } from '@libs/logger';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AuthController } from './auth/auth.controller';
 import { LlmSessionController } from './llm-session/llm-session.controller';
-import { JWTModule, RedisModule } from '@libs/shared';
+import { JWTModule } from '@libs/shared';
+import { RedisModule } from '@libs/redis';
 import { LlmMessageController } from './llm-session/llm-message.controller';
+import { LlmStreamModule } from './llm-stream/llm-stream.module';
 
 @Module({
   imports: [
@@ -17,6 +19,7 @@ import { LlmMessageController } from './llm-session/llm-message.controller';
     LoggerModule,
     JWTModule,
     RedisModule,
+    LlmStreamModule,
     ClientsModule.registerAsync([
       {
         name: 'AUTH_SERVICE',

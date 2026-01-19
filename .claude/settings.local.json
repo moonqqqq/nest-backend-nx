@@ -12,5 +12,13 @@
     "VERTEX_REGION_CLAUDE_4_5_SONNET": "global",
     "ANTHROPIC_MODEL": "claude-opus-4-5@20251101",
     "ANTHROPIC_SMALL_FAST_MODEL": "claude-3-5-haiku@20241022"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(gcloud auth list)",
+      "Bash(npx nx build api-gateway --skip-nx-cache)",
+      "Bash(npx nx build research-llm-worker --skip-nx-cache)",
+      "Bash(npx nx build api-gateway)"
+    ]
   }
 }

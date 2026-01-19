@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Redis } from 'ioredis';
-import { REDIS_CLIENT } from '../redis/redis.module';
+import { REDIS_CLIENT } from '@libs/redis';
 import { PREVENT_DUPLICATE_KEY } from '../decorators/prevent-duplicate.decorator';
 
 export interface PreventDuplicateOptions {

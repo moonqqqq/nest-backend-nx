@@ -24,3 +24,7 @@ export * from './lib/llm-message/repositories/llm-message.repository';
 // services
 export * from './lib/llm-session/services/llm-session.service';
 export * from './lib/llm-message/services/llm-message.service';
+export * from './lib/llm-stream/services/llm-stream.service';
+
+// llm-stream types
+export * from './lib/llm-stream/types/llm-stream-message.type';
